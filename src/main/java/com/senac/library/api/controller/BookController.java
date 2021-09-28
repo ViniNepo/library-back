@@ -1,6 +1,6 @@
 package com.senac.library.api.controller;
 
-import com.senac.library.api.model.entities.Customer;
+import com.senac.library.api.service.BookService;
 import com.senac.library.api.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,24 +10,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "customer/")
-public class CustomerController {
+public class BookController {
 
-    private final CustomerService customerService;
+    private final BookService bookService;
 
     @Autowired
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
+    public BookController(BookService customerService) {
+        this.bookService = customerService;
     }
 
     @GetMapping
     public ResponseEntity<Object> listAllCustomers() {
 
-        return ResponseEntity.ok(customerService.findAll());
+        return ResponseEntity.ok(bookService.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getCustomerById() {
-        return ResponseEntity.ok(customerService.findAll());
+        return ResponseEntity.ok(bookService.findAll());
     }
 
 }
