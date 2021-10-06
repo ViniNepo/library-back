@@ -1,6 +1,5 @@
 package com.senac.library.api.controller;
 
-import com.senac.library.api.model.entities.Customer;
 import com.senac.library.api.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +23,12 @@ public class CustomerController {
 
         return ResponseEntity.ok(customerService.findAll());
     }
+
+//    @GetMapping
+//    public ResponseEntity<CustomerDto> listAllCustomers(String email, String password) {
+//
+//        return ResponseEntity.ok(customerService.getById(email, password));
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getCustomerById() {

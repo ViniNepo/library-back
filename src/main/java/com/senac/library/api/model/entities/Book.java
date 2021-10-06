@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.List;
 
 @Data
@@ -30,13 +31,17 @@ public class Book {
     private String editor;
 
     @Column
-    private String launchDate;
+    private String publishDate;
 
     @Column
     private GengerEnum bookCategory;
 
-    @JoinColumn
+    @OneToOne
+    @JoinColumn(name =  "quant_book")
+    private Library realBook;
+
     @OneToMany(mappedBy = "book")
     private List<TypeValue> typeValue;
+
 
 }

@@ -10,6 +10,8 @@ public interface CustomerService {
 
     Customer getById(Long id);
 
+    Customer getByEmail(String email, String password);
+
     Customer updateById(Long id);
 
     Customer deleteById(Long id);

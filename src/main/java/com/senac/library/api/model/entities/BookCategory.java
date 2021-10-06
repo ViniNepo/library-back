@@ -12,20 +12,17 @@ import javax.persistence.ManyToOne;
 
 @Data
 @Entity
-public class Contact {
+public class BookCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column
-//    private TypeContactEnum type;
-
     @Column
-    private String number;
+    private String name;
 
     @ManyToOne
-    @JoinColumn(name="customer_id")
-    private Customer customer;
+    @JoinColumn(name="book_id")
+    private Book book;
 
 }
