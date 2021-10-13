@@ -1,6 +1,6 @@
 package com.senac.library.api.model.entities;
 
-import com.senac.library.api.enuns.GengerEnum;
+import com.senac.library.api.model.request.BookRequest;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -33,13 +34,29 @@ public class Book {
     private String publishDate;
 
     @Column
-    private GengerEnum bookCategory;
+    private String gender;
+
+    @Column
+    private LocalDate createDt;
+
+    @Column
+    private LocalDate updatedDt;
 
     @OneToOne
-    private Library realBook;
+    private Library library;
 
     @OneToMany(mappedBy = "book")
     private List<TypeValue> typeValue;
 
+    public Book() {
+    }
+
+    public Book(BookRequest request) {
+        this.name = request.getName();
+        this.author = request.getAuthor();
+        this.editor = request.getEditor();
+        this.publishDate = request.getPublishDate();
+        this.gender = request.getGender();
+    }
 
 }

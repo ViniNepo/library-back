@@ -1,18 +1,22 @@
 package com.senac.library.api.service;
 
 import com.senac.library.api.model.entities.Book;
-import com.senac.library.api.model.entities.Customer;
+import com.senac.library.api.model.request.BookRequest;
 
 import java.util.List;
 
 public interface BookService {
 
-    List<Book> findAll();
+    List<Book> findAllBooks();
 
-    Book getById(Long id);
+    List<Book> findBooksUpdated();
 
-    Book updateById(Long id);
+    List<Book> findNewBooks();
 
-    Book deleteById(Long id);
+    Book createNewBook(BookRequest request);
+
+    Book updateById(BookRequest request);
+
+    void deleteById(Long id);
 
 }

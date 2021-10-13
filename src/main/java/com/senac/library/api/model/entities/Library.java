@@ -18,4 +18,8 @@ public class Library {
 
     @Column
     private Integer quantity;
+
+    public Library(Integer quantityBook) {
+        this.quantity = quantityBook;
+    }
 }

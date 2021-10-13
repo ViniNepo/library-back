@@ -5,22 +5,12 @@ import com.senac.library.api.repository.CustomerRepository;
 import com.senac.library.api.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpClientErrorException.UnprocessableEntity;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerRepository repository;
-
-    @Override
-    public List<Customer> findAll() {
-        return null;
-    }
 
     @Override
     public Customer getById(Long id) {

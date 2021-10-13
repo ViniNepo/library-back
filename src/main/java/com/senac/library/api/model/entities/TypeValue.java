@@ -1,5 +1,6 @@
 package com.senac.library.api.model.entities;
 
+import com.senac.library.api.enuns.BookCategoryEnum;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -18,11 +19,11 @@ public class TypeValue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne
-//    private BookCategory bookCategory;
-
     @Column
     private Double value;
+
+    @Column
+    private BookCategoryEnum bookCategoryEnum;
 
     @ManyToOne
     @JoinColumn(name="book_id")
