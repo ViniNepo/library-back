@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -24,6 +25,12 @@ public class TypeValue {
 
     @Column
     private BookCategoryEnum bookCategoryEnum;
+
+    @Column
+    private LocalDate createDt;
+
+    @Column
+    private LocalDate updatedDt;
 
     @ManyToOne
     @JoinColumn(name="book_id")

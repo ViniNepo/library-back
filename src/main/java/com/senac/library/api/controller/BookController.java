@@ -1,5 +1,6 @@
 package com.senac.library.api.controller;
 
+import com.senac.library.api.model.dto.BookDto;
 import com.senac.library.api.model.entities.Book;
 import com.senac.library.api.model.request.BookRequest;
 import com.senac.library.api.service.BookService;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/book")
@@ -27,18 +30,21 @@ public class BookController {
     }
 
     @GetMapping
-    public List<Book> listAllBooks() {
-        return bookService.findAllBooks();
+    public List<BookDto> listAllBooks() {
+        List<Book> bookList = bookService.findAllBooks();
+        return bookList.stream().map(BookDto::new).collect(Collectors.toList());
     }
 
     @GetMapping("/updated")
-    public List<Book> listLastUpdatedBooks() {
-        return bookService.findBooksUpdated();
+    public List<BookDto> listLastUpdatedBooks() {
+        List<Book> bookList = bookService.findBooksUpdated();
+        return bookList.stream().map(BookDto::new).collect(Collectors.toList());
     }
 
     @GetMapping("/new")
-    public List<Book> listNewBooks() {
-        return bookService.findNewBooks();
+    public List<BookDto> listNewBooks() {
+        List<Book> bookList = bookService.findNewBooks();
+        return bookList.stream().map(BookDto::new).collect(Collectors.toList());
     }
 
     @PostMapping
@@ -47,8 +53,9 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public Book updateBook(@PathVariable Long id, @RequestBody BookRequest bookRequest) {
-        return bookService.updateById(bookRequest);
+    public BookDto updateBook(@PathVariable Long id, @RequestBody Book bookRequest) {
+        Book book = bookService.updateById(id, bookRequest);
+        return new BookDto(book);
     }
 
     @DeleteMapping("{id}")

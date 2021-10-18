@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -36,6 +37,12 @@ public class Customer implements Serializable, UserDetails {
 
     @Column
     private String email;
+
+    @Column
+    private LocalDate createDt;
+
+    @Column
+    private LocalDate updatedDt;
 
     @OneToOne
     private Address address;

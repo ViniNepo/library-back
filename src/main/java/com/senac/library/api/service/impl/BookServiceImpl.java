@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 import static com.senac.library.api.enuns.BookCategoryEnum.ONLINE_PRINTED;
 import static com.senac.library.api.enuns.BookCategoryEnum.PRINTED;
+import static com.senac.library.api.excepitions.BookException.bookException;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -57,11 +58,11 @@ public class BookServiceImpl implements BookService {
     public Book createNewBook(BookRequest request) {
 
         if (bookRepository.findByAuthorAndName(request.getAuthor(), request.getName()).isPresent()) {
-            throw new RuntimeException("This book already exist");
+            throw bookException("This book already exist");
         }
 
         if (request.getQuantityBook() == 0 && request.getTypeValues().stream().anyMatch(x -> x.getBookCategoryEnum().equals(PRINTED) || x.getBookCategoryEnum().equals(ONLINE_PRINTED))) {
-            throw new RuntimeException("This book already to set quantity to sell");
+            throw bookException("This book already to set quantity to sell");
         }
 
         Library library = new Library(request.getQuantityBook());
@@ -81,20 +82,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book updateById(BookRequest request) {
+    public Book updateById(Long id, Book bookRequest) {
 
-        Optional<Book> book = bookRepository.findById(request.getId());
+        if (bookRepository.findById(id).isPresent()) {
 
-        if (book.isPresent()) {
-            libraryRepository.deleteById(book.get().getLibrary().getId());
+            libraryRepository.save(bookRequest.getLibrary());
+            bookRequest.getTypeValue().forEach(x -> typeValueRepository.save(x));
 
-            book.get().getTypeValue().forEach(x -> typeValueRepository.deleteById(x.getId()));
-
-            bookRepository.deleteById(book.get().getId());
-
-            return book.get();
+            return bookRepository.save(bookRequest);
         }
-        throw new RuntimeException("dwsd");
+        throw bookException("Book not found");
     }
 
     @Override
@@ -108,6 +105,8 @@ public class BookServiceImpl implements BookService {
             book.get().getTypeValue().forEach(x -> typeValueRepository.deleteById(x.getId()));
 
             bookRepository.deleteById(book.get().getId());
+        } else {
+            throw bookException("Book not found");
         }
     }
 }

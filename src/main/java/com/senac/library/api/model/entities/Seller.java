@@ -9,35 +9,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
-public class Address {
+public class Seller {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    private String street;
-
-    @Column
-    private String number;
-
-    @Column
-    private String complement;
-
-    @Column
-    private String state;
-
-    @Column
-    private String city;
-
-    @Column
-    private String country;
-
-    @Column
-    private String zip;
+    private Double totalValue;
 
     @Column
     private LocalDate createDt;
@@ -48,4 +31,6 @@ public class Address {
     @OneToOne
     private Customer customer;
 
+//    @OneToOne
+//    private List<Book> bookList;
 }

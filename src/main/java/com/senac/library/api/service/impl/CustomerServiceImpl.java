@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.senac.library.api.excepitions.CustomerException.customerException;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -46,7 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
         if(customer.isPresent() && passwordEncoder.matches(password, customer.get().getPassword())) {
             return customer.get();
         }
-        throw  new RuntimeException("dsd");
+        throw customerException("User or password not found");
     }
 
     @Override
@@ -69,7 +71,7 @@ public class CustomerServiceImpl implements CustomerService {
             return customerRepository.save(customer);
         }
 
-        return null;
+        throw customerException("Customer already exist");
     }
 
     @Override
@@ -86,7 +88,7 @@ public class CustomerServiceImpl implements CustomerService {
             return customerRepository.save(customer);
         }
 
-        return null;
+        throw customerException("User not exist");
     }
 
 
@@ -104,7 +106,7 @@ public class CustomerServiceImpl implements CustomerService {
 
             customerRepository.delete(customer.get());
         } else {
-            throw new RuntimeException("deu ruim");
+            throw customerException("User not exist");
         }
     }
 }

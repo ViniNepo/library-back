@@ -22,4 +22,8 @@ public class Library {
     public Library(Integer quantityBook) {
         this.quantity = quantityBook;
     }
+
+    public Library() {
+
+    }
 }
