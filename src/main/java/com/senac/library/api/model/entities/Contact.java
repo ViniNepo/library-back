@@ -1,5 +1,6 @@
 package com.senac.library.api.model.entities;
 
+import com.senac.library.api.enuns.TypeContactEnum;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -19,8 +20,8 @@ public class Contact {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column
-//    private TypeContactEnum type;
+    @Column
+    private TypeContactEnum type;
 
     @Column
     private String number;

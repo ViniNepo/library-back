@@ -78,7 +78,11 @@ public class BookServiceImpl implements BookService {
         book.setLibrary(library);
         book.setTypeValue(typeValuesList);
 
-        return bookRepository.save(book);
+        book = bookRepository.save(book);
+        Book finalBook = book;
+        book.getTypeValue().forEach(x -> x.setBook(finalBook));
+        book.getTypeValue().forEach(x -> typeValueRepository.save(x));
+        return book;
     }
 
     @Override
@@ -100,10 +104,6 @@ public class BookServiceImpl implements BookService {
         Optional<Book> book = bookRepository.findById(id);
 
         if (book.isPresent()) {
-            libraryRepository.deleteById(book.get().getLibrary().getId());
-
-            book.get().getTypeValue().forEach(x -> typeValueRepository.deleteById(x.getId()));
-
             bookRepository.deleteById(book.get().getId());
         } else {
             throw bookException("Book not found");

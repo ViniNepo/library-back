@@ -31,7 +31,7 @@ public class Book {
     private String editor;
 
     @Column
-    private String publishDate;
+    private LocalDate publishDate;
 
     @Column
     private String gender;

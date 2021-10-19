@@ -1,8 +1,10 @@
 package com.senac.library.api.controller;
 
+import com.senac.library.api.model.dto.CustomerDto;
 import com.senac.library.api.model.entities.Customer;
 import com.senac.library.api.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,38 +15,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/customer")
+@RequestMapping(path = "customer")
 public class CustomerController {
 
-    private final CustomerService customerService;
-
     @Autowired
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
-    }
+    private CustomerService customerService;
 
     @GetMapping("/{id}")
-    public Customer getCustomerById(@PathVariable Long id) {
-        return customerService.getById(id);
+    public ResponseEntity<Object> getCustomerById(@PathVariable Long id) {
+        return ResponseEntity.ok(customerService.getById(id));
     }
 
     @GetMapping("/{email}/{password}")
-    public Customer getCustomerByEmail(@PathVariable String email, @PathVariable String password) {
-        return customerService.getByEmail(email, password);
+    public ResponseEntity<Object> getCustomerByEmail(@PathVariable String email, @PathVariable String password) {
+        Customer customer = customerService.getByEmail(email, password);
+        return ResponseEntity.ok(new CustomerDto(customer));
     }
 
     @PostMapping
-    public Customer createCustomer(@RequestBody Customer customer) {
-        return customerService.createUser(customer);
+    public ResponseEntity<Object> createCustomer(@RequestBody Customer customer) {
+        Customer c = customerService.createUser(customer);
+        return ResponseEntity.ok(new CustomerDto(c));
     }
 
     @PutMapping
-    public Customer updateCustomer(@RequestBody Customer customer) {
-        return customerService.updateCustomer(customer);
+    public ResponseEntity<Object> updateCustomer(@RequestBody Customer customer) {
+        Customer c = customerService.updateCustomer(customer);
+        return ResponseEntity.ok(new CustomerDto(c));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCustomer(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
         customerService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
