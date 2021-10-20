@@ -82,6 +82,7 @@ public class BookServiceImpl implements BookService {
         Book finalBook = book;
         book.getTypeValue().forEach(x -> x.setBook(finalBook));
         book.getTypeValue().forEach(x -> typeValueRepository.save(x));
+
         return book;
     }
 

@@ -1,5 +1,6 @@
 package com.senac.library.api.service.impl;
 
+import com.senac.library.api.model.dto.LoginDto;
 import com.senac.library.api.model.entities.Address;
 import com.senac.library.api.model.entities.Contact;
 import com.senac.library.api.model.entities.Customer;
@@ -36,16 +37,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer getById(Long id) {
-        return customerRepository.getById(id);
+        return customerRepository.findById(id).get();
     }
 
     @Override
-    public Customer getByEmail(String email, String password) {
+    public Customer getByEmail(LoginDto loginDto) {
 
+        Optional<Customer> customer = customerRepository.getCustomerByEmail(loginDto.getEmail());
 
-        Optional<Customer> customer = customerRepository.getCustomerByEmail(email);
-
-        if(customer.isPresent() && passwordEncoder.matches(password, customer.get().getPassword())) {
+        if(customer.isPresent() && passwordEncoder.matches(loginDto.getPassword(), customer.get().getPassword())) {
             return customer.get();
         }
         throw customerException("User or password not found");
@@ -54,7 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer createUser(Customer customer) {
 
-        if (customerRepository.findById(customer.getId()).isEmpty()) {
+        if (customerRepository.getCustomerByCpfAndEmail(customer.getCpf(), customer.getEmail()).isEmpty()) {
 
             Address address = addressRepository.save(customer.getAddress());
 
@@ -68,7 +68,12 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setContactList(contactList);
             customer.setPassword(passwordEncoder.encode(customer.getPassword()));
 
-            return customerRepository.save(customer);
+            customer = customerRepository.save(customer);
+            Customer finalCustomer = customer;
+            customer.getContactList().forEach(x -> x.setCustomer(finalCustomer));
+            customer.getContactList().forEach(x -> contactRepository.save(x));
+
+            return customer;
         }
 
         throw customerException("Customer already exist");

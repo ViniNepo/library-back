@@ -1,6 +1,7 @@
 package com.senac.library.api.controller;
 
 import com.senac.library.api.model.dto.CustomerDto;
+import com.senac.library.api.model.dto.LoginDto;
 import com.senac.library.api.model.entities.Customer;
 import com.senac.library.api.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,13 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getCustomerById(@PathVariable Long id) {
-        return ResponseEntity.ok(customerService.getById(id));
+        Customer customer = customerService.getById(id);
+        return ResponseEntity.ok(new CustomerDto(customer));
     }
 
-    @GetMapping("/{email}/{password}")
-    public ResponseEntity<Object> getCustomerByEmail(@PathVariable String email, @PathVariable String password) {
-        Customer customer = customerService.getByEmail(email, password);
+    @GetMapping
+    public ResponseEntity<Object> getCustomerByEmail(@RequestBody LoginDto loginDto) {
+        Customer customer = customerService.getByEmail(loginDto);
         return ResponseEntity.ok(new CustomerDto(customer));
     }
 
