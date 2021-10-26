@@ -1,6 +1,8 @@
 package com.senac.library.api.model.entities;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,9 +40,11 @@ public class Customer implements Serializable, UserDetails {
     @Column
     private String email;
 
+    @CreatedDate
     @Column
     private LocalDate createDt;
 
+    @LastModifiedDate
     @Column
     private LocalDate updatedDt;
 

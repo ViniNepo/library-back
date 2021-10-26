@@ -17,15 +17,10 @@ public class ContactDto {
     private Long id;
     private TypeContactEnum type;
     private String number;
-    private LocalDate createDt;
-    private LocalDate updatedDt;
-
 
     public ContactDto(Contact contact) {
         this.id = contact.getId();
         this.type = contact.getType();
         this.number = contact.getNumber();
-        this.createDt = contact.getCreateDt();
-        this.updatedDt = contact.getUpdatedDt();
     }
 }

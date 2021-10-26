@@ -57,7 +57,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book createNewBook(BookRequest request) {
 
-        if (bookRepository.findByAuthorAndName(request.getAuthor(), request.getName()).isPresent()) {
+        if (bookRepository.findByAuthorAndTitle(request.getAuthor(), request.getTitle()).isPresent()) {
             throw bookException("This book already exist");
         }
 

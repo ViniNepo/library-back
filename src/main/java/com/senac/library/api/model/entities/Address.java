@@ -1,6 +1,8 @@
 package com.senac.library.api.model.entities;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,12 +40,6 @@ public class Address {
 
     @Column
     private String zip;
-
-    @Column
-    private LocalDate createDt;
-
-    @Column
-    private LocalDate updatedDt;
 
     @OneToOne
     private Customer customer;

@@ -21,9 +21,6 @@ public class AddressDto {
     private String city;
     private String country;
     private String zip;
-    private LocalDate createDt;
-    private LocalDate updatedDt;
-
 
     public AddressDto(Address address) {
         this.id = address.getId();
@@ -34,7 +31,5 @@ public class AddressDto {
         this.city = address.getCity();
         this.country = address.getCountry();
         this.zip = address.getZip();
-        this.createDt = address.getCreateDt();
-        this.updatedDt = address.getUpdatedDt();
     }
 }

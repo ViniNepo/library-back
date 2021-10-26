@@ -102,13 +102,6 @@ public class CustomerServiceImpl implements CustomerService {
         Optional<Customer> customer = customerRepository.findById(id);
 
         if (customer.isPresent()) {
-
-            addressRepository.delete(addressRepository.findByCustomer(customer.get()));
-
-            for (Contact x: customer.get().getContactList()) {
-                contactRepository.delete(contactRepository.findByCustomer(x.getCustomer()));
-            }
-
             customerRepository.delete(customer.get());
         } else {
             throw customerException("User not exist");

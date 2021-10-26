@@ -2,6 +2,8 @@ package com.senac.library.api.model.entities;
 
 import com.senac.library.api.enuns.BookCategoryEnum;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,12 +27,6 @@ public class TypeValue {
 
     @Column
     private BookCategoryEnum bookCategoryEnum;
-
-    @Column
-    private LocalDate createDt;
-
-    @Column
-    private LocalDate updatedDt;
 
     @ManyToOne
     @JoinColumn(name="book_id")

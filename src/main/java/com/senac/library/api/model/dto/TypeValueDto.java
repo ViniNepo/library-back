@@ -16,14 +16,10 @@ public class TypeValueDto {
     private Long id;
     private Double value;
     private BookCategoryEnum bookCategoryEnum;
-    private LocalDate createDt;
-    private LocalDate updatedDt;
 
     public TypeValueDto(TypeValue typeValue) {
         this.id = typeValue.getId();
         this.value = typeValue.getValue();
         this.bookCategoryEnum = typeValue.getBookCategoryEnum();
-        this.createDt = typeValue.getCreateDt();
-        this.updatedDt = typeValue.getUpdatedDt();
     }
 }

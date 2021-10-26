@@ -2,6 +2,8 @@ package com.senac.library.api.model.entities;
 
 import com.senac.library.api.model.request.BookRequest;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +24,13 @@ public class Book {
     private Long id;
 
     @Column
-    private String name;
+    private String title;
+
+    @Column
+    private String description;
+
+    @Column
+    private String content;
 
     @Column
     private String author;
@@ -34,12 +42,23 @@ public class Book {
     private LocalDate publishDate;
 
     @Column
+    private Integer numberPages;
+
+    @Column
+    private String isbn;
+
+    @Column
+    private String imageUrl;
+
+    @Column
     private String gender;
 
-    @Column
+    @CreatedDate
+    @Column(columnDefinition = "TIME")
     private LocalDate createDt;
 
-    @Column
+    @LastModifiedDate
+    @Column(columnDefinition = "TIME")
     private LocalDate updatedDt;
 
     @OneToOne
@@ -52,11 +71,16 @@ public class Book {
     }
 
     public Book(BookRequest request) {
-        this.name = request.getName();
+        this.title = request.getTitle();
         this.author = request.getAuthor();
         this.editor = request.getEditor();
         this.publishDate = request.getPublishDate();
         this.gender = request.getGender();
+        this.description = request.getDescription();
+        this.content = request.getContent();
+        this.numberPages = request.getNumberPages();
+        this.isbn = request.getIsbn();
+        this.imageUrl = request.getImageUrl();
     }
 
 }
