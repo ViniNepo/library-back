@@ -2,17 +2,15 @@ package com.senac.library.api.model.entities;
 
 import com.senac.library.api.enuns.BookCategoryEnum;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.time.LocalDate;
+import javax.persistence.ManyToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -28,8 +26,12 @@ public class TypeValue {
     @Column
     private BookCategoryEnum bookCategoryEnum;
 
-    @ManyToOne
-    @JoinColumn(name="book_id")
-    private Book book;
+    @ManyToMany(mappedBy = "typeValues")
+    private List<Book> bookList = new ArrayList<>();
 
+    public TypeValue(Long id, Double value, BookCategoryEnum bookCategoryEnum) {
+        this.id = id;
+        this.value = value;
+        this.bookCategoryEnum = bookCategoryEnum;
+    }
 }

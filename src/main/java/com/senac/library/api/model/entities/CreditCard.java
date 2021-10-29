@@ -2,43 +2,50 @@ package com.senac.library.api.model.entities;
 
 import com.senac.library.api.enuns.TypeContactEnum;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import java.time.LocalDate;
 import java.util.List;
 
 @Data
 @Entity
-public class Contact {
+public class CreditCard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    private TypeContactEnum type;
+    private String name;
+
+    @Column
+    private String cpf;
 
     @Column
     private String number;
 
-    @ManyToMany(mappedBy = "contacts")
+    @Column
+    private String validateData;
+
+    @Column
+    private String securityNumber;
+
+    @ManyToMany(mappedBy = "creditCards")
     private List<Customer> customerList;
 
-    public Contact() {
+    public CreditCard() {
     }
 
-    public Contact(Long id, TypeContactEnum type, String number) {
+    public CreditCard(Long id, String name, String cpf, String number, String validateData, String securityNumber) {
         this.id = id;
-        this.type = type;
+        this.name = name;
+        this.cpf = cpf;
         this.number = number;
+        this.validateData = validateData;
+        this.securityNumber = securityNumber;
     }
 }

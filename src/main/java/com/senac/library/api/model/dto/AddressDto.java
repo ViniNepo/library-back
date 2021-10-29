@@ -2,7 +2,6 @@ package com.senac.library.api.model.dto;
 
 import com.senac.library.api.model.entities.Address;
 import com.senac.library.api.model.entities.Book;
-import com.senac.library.api.model.entities.Library;
 import com.senac.library.api.model.entities.TypeValue;
 import lombok.Data;
 

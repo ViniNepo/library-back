@@ -9,8 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -41,7 +43,24 @@ public class Address {
     @Column
     private String zip;
 
-    @OneToOne
-    private Customer customer;
+    @Column
+    private Boolean principal;
 
+    @ManyToMany(mappedBy = "addresses")
+    private List<Customer> customerList;
+
+    public Address() {
+    }
+
+    public Address(Long id, String street, String number, String complement, String state, String city, String country, String zip, Boolean principal) {
+        this.id = id;
+        this.street = street;
+        this.number = number;
+        this.complement = complement;
+        this.state = state;
+        this.city = city;
+        this.country = country;
+        this.zip = zip;
+        this.principal = principal;
+    }
 }

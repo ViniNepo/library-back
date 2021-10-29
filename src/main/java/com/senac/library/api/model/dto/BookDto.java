@@ -1,10 +1,10 @@
 package com.senac.library.api.model.dto;
 
 import com.senac.library.api.model.entities.Book;
-import com.senac.library.api.model.entities.Library;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,11 +15,10 @@ public class BookDto {
     private String title;
     private String author;
     private String editor;
-    private LocalDate publishDate;
+    private Date publishDate;
     private String gender;
     private LocalDate createDt;
     private LocalDate updatedDt;
-    private Library library;
     private String description;
     private String content;
     private Integer numberPages;
@@ -34,14 +33,10 @@ public class BookDto {
         this.editor = book.getEditor();
         this.gender = book.getGender();
         this.publishDate = book.getPublishDate();
-        this.createDt = book.getCreateDt();
-        this.updatedDt = book.getUpdatedDt();
-        this.library = book.getLibrary();
         this.description = book.getDescription();
         this.content = book.getContent();
         this.numberPages = book.getNumberPages();
         this.isbn = book.getIsbn();
         this.imageUrl = book.getImageUrl();
-        this.typeValue = book.getTypeValue().stream().map(TypeValueDto::new).collect(Collectors.toList());
     }
 }

@@ -10,7 +10,7 @@ import static java.util.stream.Collectors.toMap;
 public enum TypeContactEnum {
 
     HOME(1, "Residencial"),
-    COMERCIAL(2, "Comercial"),
+    COMMERCIAL(2, "Comercial"),
     PHONE(3, "Celular");
 
 

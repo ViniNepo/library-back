@@ -13,10 +13,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -40,19 +43,26 @@ public class Customer implements Serializable, UserDetails {
     @Column
     private String email;
 
-    @CreatedDate
-    @Column
-    private LocalDate createDt;
+    @ManyToMany
+    @JoinTable(name = "CUSTOMER_CONTACT",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "contact_id"))
+    private List<Contact> contacts = new ArrayList<>();
 
-    @LastModifiedDate
-    @Column
-    private LocalDate updatedDt;
+    @ManyToMany
+    @JoinTable(name = "CUSTOMER_ADDRESS",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "address_id"))
+    private List<Address> addresses = new ArrayList<>();
 
-    @OneToOne
-    private Address address;
+    @ManyToMany
+    @JoinTable(name = "CUSTOMER_CREDIT_CARD",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "credit_card_id"))
+    private List<CreditCard>   creditCards = new ArrayList<>();
 
-    @OneToMany(mappedBy = "customer")
-    private List<Contact> contactList;
+    @OneToMany(mappedBy =  "customer")
+    private List<Sale> saleList = new ArrayList<>();
 
     @Override
     public String getUsername() {
@@ -67,6 +77,13 @@ public class Customer implements Serializable, UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("USER"));
+    }
+
+    public Customer(Long id, String password, String cpf, String email) {
+        this.id = id;
+        this.password = password;
+        this.cpf = cpf;
+        this.email = email;
     }
 
     @Override

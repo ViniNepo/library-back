@@ -23,88 +23,29 @@ import static com.senac.library.api.excepitions.CustomerException.customerExcept
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private AddressRepository addressRepository;
-
-    @Autowired
-    private ContactRepository contactRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Override
     public Customer getById(Long id) {
-        return customerRepository.findById(id).get();
+        return null;
     }
 
     @Override
     public Customer getByEmail(LoginDto loginDto) {
-
-        Optional<Customer> customer = customerRepository.getCustomerByEmail(loginDto.getEmail());
-
-        if(customer.isPresent() && passwordEncoder.matches(loginDto.getPassword(), customer.get().getPassword())) {
-            return customer.get();
-        }
-        throw customerException("User or password not found");
+        return null;
     }
 
     @Override
     public Customer createUser(Customer customer) {
-
-        if (customerRepository.getCustomerByCpfAndEmail(customer.getCpf(), customer.getEmail()).isEmpty()) {
-
-            Address address = addressRepository.save(customer.getAddress());
-
-            List<Contact> contactList = new ArrayList<>();
-            for (Contact x: customer.getContactList()) {
-                Contact contact = contactRepository.save(x);
-                contactList.add(contact);
-            }
-
-            customer.setAddress(address);
-            customer.setContactList(contactList);
-            customer.setPassword(passwordEncoder.encode(customer.getPassword()));
-
-            customer = customerRepository.save(customer);
-            Customer finalCustomer = customer;
-            customer.getContactList().forEach(x -> x.setCustomer(finalCustomer));
-            customer.getContactList().forEach(x -> contactRepository.save(x));
-
-            return customer;
-        }
-
-        throw customerException("Customer already exist");
+        return null;
     }
 
     @Override
     public Customer updateCustomer(Customer customer) {
-
-        if (customerRepository.findById(customer.getId()).isPresent()) {
-
-            addressRepository.save(customer.getAddress());
-
-            for (Contact x: customer.getContactList()) {
-                contactRepository.save(x);
-            }
-
-            return customerRepository.save(customer);
-        }
-
-        throw customerException("User not exist");
+        return null;
     }
-
 
     @Override
     public void deleteById(Long id) {
-        Optional<Customer> customer = customerRepository.findById(id);
 
-        if (customer.isPresent()) {
-            customerRepository.delete(customer.get());
-        } else {
-            throw customerException("User not exist");
-        }
     }
 }
