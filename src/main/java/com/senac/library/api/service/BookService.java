@@ -4,6 +4,7 @@ import com.senac.library.api.model.entities.Book;
 import com.senac.library.api.model.request.BookRequest;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookService {
 
@@ -19,4 +20,5 @@ public interface BookService {
 
     void deleteById(Long id);
 
+    Optional<Book> getBookById(Long id);
 }

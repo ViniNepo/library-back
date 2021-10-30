@@ -5,13 +5,7 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -29,7 +23,7 @@ public class Book {
     @Column
     private String description;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @Column
@@ -54,17 +48,17 @@ public class Book {
     private String gender;
 
     @CreatedDate
-    @Column(columnDefinition = "TIME")
+    @Column(columnDefinition = "DATE")
     private LocalDate createDt;
 
     @LastModifiedDate
-    @Column(columnDefinition = "TIME")
+    @Column(columnDefinition = "DATE")
     private LocalDate updatedDt;
 
     @OneToOne
     private Library library;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<TypeValue> typeValue;
 
     public Book() {

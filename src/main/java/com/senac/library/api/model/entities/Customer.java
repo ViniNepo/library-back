@@ -35,6 +35,9 @@ public class Customer implements Serializable, UserDetails {
     private String password;
 
     @Column
+    private String name;
+
+    @Column
     private String cpf;
 
     @Column

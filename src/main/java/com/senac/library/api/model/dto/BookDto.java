@@ -27,6 +27,10 @@ public class BookDto {
     private String imageUrl;
     private List<TypeValueDto> typeValue;
 
+    public BookDto(){
+
+    }
+
     public BookDto(Book book) {
         this.id = book.getId();
         this.title = book.getTitle();

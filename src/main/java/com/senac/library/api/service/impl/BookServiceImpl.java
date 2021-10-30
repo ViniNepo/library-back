@@ -73,8 +73,11 @@ public class BookServiceImpl implements BookService {
             x = typeValueRepository.save(x);
             typeValuesList.add(x);
         }
+        LocalDate today = LocalDate.now();
 
         Book book = new Book(request);
+        book.setCreateDt(today);
+        book.setUpdatedDt(today);
         book.setLibrary(library);
         book.setTypeValue(typeValuesList);
 
@@ -109,5 +112,10 @@ public class BookServiceImpl implements BookService {
         } else {
             throw bookException("Book not found");
         }
+    }
+
+    @Override
+    public Optional<Book> getBookById(Long id) {
+        return bookRepository.findById(id);
     }
 }

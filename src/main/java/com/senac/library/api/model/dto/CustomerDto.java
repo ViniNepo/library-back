@@ -22,6 +22,7 @@ public class CustomerDto {
 
     private Long id;
     private String cpf;
+    private String name;
     private String email;
     private LocalDate createDt;
     private LocalDate updatedDt;
@@ -32,6 +33,7 @@ public class CustomerDto {
     public CustomerDto(Customer customer) {
         this.id = customer.getId();
         this.cpf = customer.getCpf();
+        this.name = customer.getName();
         this.email = customer.getEmail();
         this.address = new AddressDto(customer.getAddress());
         this.contactList = customer.getContactList().stream().map(ContactDto::new).collect(Collectors.toList());

@@ -2,6 +2,8 @@ package com.senac.library.api.model.entities;
 
 import com.senac.library.api.enuns.BookCategoryEnum;
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
