@@ -29,12 +29,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.GET, "/").permitAll()
 			.antMatchers(HttpMethod.POST, "/").permitAll()
 			.antMatchers(HttpMethod.PUT, "/").permitAll()
-			.antMatchers(HttpMethod.DELETE, "/").permitAll()
-			.antMatchers("/h2-console/**").permitAll()
-				.anyRequest().authenticated()
-				.and().csrf().disable()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and().headers().frameOptions().sameOrigin();
+			.antMatchers(HttpMethod.DELETE, "/").permitAll();
+//			.antMatchers("/h2-console/**").permitAll()
+//				.anyRequest().authenticated()
+//				.and().csrf().disable()
+//				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//				.and().headers().frameOptions().sameOrigin();
 	}
 
 	@Override

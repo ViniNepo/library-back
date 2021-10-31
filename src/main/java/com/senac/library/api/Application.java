@@ -23,6 +23,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -77,12 +79,12 @@ public class Application implements CommandLineRunner {
 
 		Store s1 = new Store(null, 1, 10);
 		Store s2 = new Store(null, 50, 100);
-		Store s3 = new Store(null, 0, 13);
+		Store s3 = new Store(null, 0, 0);
 		storeRepository.saveAll(Arrays.asList(s1, s2, s3));
 
-		Book b1 = new Book(null, "title1", "desc", "content", "ator", "editor", new Date(), 1, "isbn", "image", "gender");
-		Book b2 = new Book(null, "title2", "desc", "content", "ator", "editor", new Date(), 1, "isbn", "image", "gender");
-		Book b3 = new Book(null, "title3", "desc", "content", "ator", "editor", new Date(), 1, "isbn", "image", "gender");
+		Book b1 = new Book(null, "title1", "desc", "content", "ator", "editor", LocalDate.now(), 1, "isbn", "image", "gender");
+		Book b2 = new Book(null, "title2", "desc", "content", "ator", "editor", LocalDate.now(), 1, "isbn", "image", "gender");
+		Book b3 = new Book(null, "title3", "desc", "content", "ator", "editor", LocalDate.now(), 1, "isbn", "image", "gender");
 
 		b1.getTypeValues().addAll(Arrays.asList(t1, t2));
 		b2.getTypeValues().addAll(Arrays.asList(t1, t2, t3));

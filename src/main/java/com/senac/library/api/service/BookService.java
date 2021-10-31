@@ -1,5 +1,6 @@
 package com.senac.library.api.service;
 
+import com.senac.library.api.model.dto.BookDto;
 import com.senac.library.api.model.entities.Book;
 import com.senac.library.api.model.request.BookRequest;
 
@@ -13,9 +14,9 @@ public interface BookService {
 
     List<Book> findNewBooks();
 
-    Book createNewBook(BookRequest request);
+    BookDto createNewBook(BookRequest request) throws Exception;
 
-    Book updateById(Long id, Book request);
+    BookDto updateById(BookDto request);
 
     void deleteById(Long id);
 

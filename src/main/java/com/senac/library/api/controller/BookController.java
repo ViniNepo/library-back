@@ -45,15 +45,13 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createBook(@RequestBody BookRequest bookRequest) {
-        Book book = bookService.createNewBook(bookRequest);
-        return ResponseEntity.ok(new BookDto(book));
+    public ResponseEntity<Object> createBook(@RequestBody BookRequest bookRequest) throws Exception {
+        return ResponseEntity.ok(bookService.createNewBook(bookRequest));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateBook(@PathVariable Long id, @RequestBody Book bookRequest) {
-        Book book = bookService.updateById(id, bookRequest);
-        return ResponseEntity.ok(new BookDto(book));
+    @PutMapping
+    public ResponseEntity<Object> updateBook(@RequestBody BookDto bookRequest) {
+        return ResponseEntity.ok(bookService.updateById(bookRequest));
     }
 
     @DeleteMapping("{id}")

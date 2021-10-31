@@ -29,6 +29,9 @@ public class TypeValue {
     @ManyToMany(mappedBy = "typeValues")
     private List<Book> bookList = new ArrayList<>();
 
+    public TypeValue() {
+    }
+
     public TypeValue(Long id, Double value, BookCategoryEnum bookCategoryEnum) {
         this.id = id;
         this.value = value;

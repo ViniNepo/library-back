@@ -49,7 +49,7 @@ public class Book {
     private String editor;
 
     @Column
-    private Date publishDate;
+    private LocalDate publishDate;
 
     @Column
     private Integer numberPages;
@@ -63,12 +63,10 @@ public class Book {
     @Column
     private String gender;
 
-    @Generated(GenerationTime.INSERT)
-    @Column(name = "CREATED_AT")
+    @Column
     private LocalDateTime createDt;
 
-    @Generated(GenerationTime.ALWAYS)
-    @Column(name = "UPDATED_AT")
+    @Column
     private LocalDateTime updateDt;
 
     @OneToOne
@@ -87,7 +85,7 @@ public class Book {
     }
 
     public Book(Long id, String title, String description, String content,
-                String author, String editor, Date publishDate,
+                String author, String editor, LocalDate publishDate,
                 Integer numberPages, String isbn, String imageUrl, String gender) {
         this.id = id;
         this.title = title;

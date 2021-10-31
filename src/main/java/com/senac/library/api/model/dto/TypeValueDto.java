@@ -11,6 +11,9 @@ public class TypeValueDto {
     private Double value;
     private BookCategoryEnum bookCategoryEnum;
 
+    public TypeValueDto() {
+    }
+
     public TypeValueDto(TypeValue typeValue) {
         this.id = typeValue.getId();
         this.value = typeValue.getValue();

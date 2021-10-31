@@ -4,7 +4,6 @@ import com.senac.library.api.model.entities.TypeValue;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -14,7 +13,7 @@ public class BookRequest {
     private String title;
     private String author;
     private String editor;
-    private Date publishDate;
+    private LocalDate publishDate;
     private String gender;
     private Integer quantityBook;
     private String description;
