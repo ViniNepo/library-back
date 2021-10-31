@@ -12,6 +12,7 @@ import com.senac.library.api.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,12 +39,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> findBooksUpdated() {
-        return bookRepository.findAllByUpdateDtBefore(now().minusDays(30L));
+        return bookRepository.findAllByUpdatedDtBefore(LocalDate.now().minusDays(30L));
     }
 
     @Override
     public List<Book> findNewBooks() {
-        return bookRepository.findAllByCreateDtIsBefore(now().minusDays(30L));
+        return bookRepository.findAllByCreateDtIsBefore(LocalDate.now().minusDays(30L));
     }
 
     @Override
@@ -65,7 +66,9 @@ public class BookServiceImpl implements BookService {
 
         book.setStore(store);
         book.setTypeValues(typeValueList);
-        book.setCreateDt(now());
+        book.setCreateDt(LocalDate.now());
+        book.setUpdatedDt(LocalDate.now());
+
         return new BookDto(bookRepository.save(book));
     }
 
@@ -91,7 +94,7 @@ public class BookServiceImpl implements BookService {
 
         book.get().setStore(store);
         book.get().setTypeValues(typeValueList);
-        book.get().setUpdateDt(now());
+        book.get().setUpdatedDt(LocalDate.now());
         return new BookDto(bookRepository.save(book.get()));
     }
 
@@ -106,5 +109,10 @@ public class BookServiceImpl implements BookService {
         bookRepository.deleteById(id);
         storeRepository.deleteById(book.get().getStore().getId());
         book.get().getTypeValues().forEach(x -> typeValueRepository.deleteById(x.getId()));
+    }
+
+    @Override
+    public Optional<Book> getBookById(Long id) {
+        return bookRepository.findById(id);
     }
 }

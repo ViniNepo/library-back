@@ -19,8 +19,8 @@ public class BookDto {
     private String editor;
     private LocalDate publishDate;
     private String gender;
-    private LocalDateTime createDt;
-    private LocalDateTime updatedDt;
+    private LocalDate createDt;
+    private LocalDate updatedDt;
     private String description;
     private String content;
     private Integer numberPages;
@@ -46,7 +46,7 @@ public class BookDto {
         this.isbn = book.getIsbn();
         this.imageUrl = book.getImageUrl();
         this.createDt = book.getCreateDt();
-        this.updatedDt = book.getUpdateDt();
+        this.updatedDt = book.getUpdatedDt();
         this.store = new StoreDto(book.getStore());
         this.typeValue = book.getTypeValues().stream().map(TypeValueDto::new).collect(Collectors.toList());
     }

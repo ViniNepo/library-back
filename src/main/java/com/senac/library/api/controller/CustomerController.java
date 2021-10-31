@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(path = "customer")
 @CrossOrigin(origins = "*")
@@ -18,14 +20,22 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getCustomerById(@PathVariable Long id) {
-        Customer customer = customerService.getById(id);
-        return ResponseEntity.ok(new CustomerDto(customer));
+        Optional<Customer> customer = customerService.getById(id);
+
+        if(customer.isEmpty()) {
+            return ResponseEntity.unprocessableEntity().body("deu ruim");
+        }
+        return ResponseEntity.ok(new CustomerDto(customer.get()));
     }
 
     @GetMapping
     public ResponseEntity<Object> getCustomerByEmail(@RequestBody LoginDto loginDto) {
-        Customer customer = customerService.getByEmail(loginDto);
-        return ResponseEntity.ok(new CustomerDto(customer));
+        Optional<Customer> customer = customerService.getByEmail(loginDto);
+
+        if(customer.isEmpty()) {
+            return ResponseEntity.unprocessableEntity().body("deu ruim");
+        }
+        return ResponseEntity.ok(new CustomerDto(customer.get()));
     }
 
     @PostMapping

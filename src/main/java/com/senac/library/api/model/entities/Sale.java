@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +21,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,19 +41,20 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Generated(GenerationTime.INSERT)
-    @Column(name = "CREATED_AT")
-    private LocalDateTime createDate;
+    @CreatedDate
+    @Column(columnDefinition = "DATE")
+    private LocalDate createDt;
 
     @Column
     private Boolean active;
 
-    @Column
-    private Double total;
-
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     @OneToMany(mappedBy = "id.sale")
     private Set<CartItem> cartItems = new HashSet<>();
@@ -58,9 +62,8 @@ public class Sale {
     public Sale() {
     }
 
-    public Sale(Long id, Boolean active, Double total) {
+    public Sale(Long id, Boolean active) {
         this.id = id;
         this.active = active;
-        this.total = total;
     }
 }

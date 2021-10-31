@@ -127,9 +127,9 @@ public class Application implements CommandLineRunner {
 		customer3.setCreditCards(Arrays.asList(card1, card2, card3));
 		customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3));
 
-		Sale sale1 = new Sale(null, true, 200.0);
-		Sale sale2 = new Sale(null, true, 20.0);
-		Sale sale3 = new Sale(null, false, 10.0);
+		Sale sale1 = new Sale(null, true);
+		Sale sale2 = new Sale(null, true);
+		Sale sale3 = new Sale(null, false);
 
 		sale1.setCustomer(customer1);
 		sale2.setCustomer(customer2);

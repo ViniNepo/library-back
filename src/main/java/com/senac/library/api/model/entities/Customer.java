@@ -62,10 +62,14 @@ public class Customer implements Serializable, UserDetails {
     @JoinTable(name = "CUSTOMER_CREDIT_CARD",
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "credit_card_id"))
-    private List<CreditCard>   creditCards = new ArrayList<>();
+    private List<CreditCard> creditCards = new ArrayList<>();
 
     @OneToMany(mappedBy =  "customer")
     private List<Sale> saleList = new ArrayList<>();
+
+    public Customer() {
+
+    }
 
     @Override
     public String getUsername() {
