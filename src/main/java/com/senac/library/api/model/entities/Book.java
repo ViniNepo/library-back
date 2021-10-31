@@ -7,16 +7,7 @@ import org.hibernate.annotations.GenerationTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,7 +30,7 @@ public class Book {
     @Column
     private String description;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @Column
@@ -63,11 +54,13 @@ public class Book {
     @Column
     private String gender;
 
-    @Column
-    private LocalDateTime createDt;
+    @CreatedDate
+    @Column(columnDefinition = "DATE")
+    private LocalDate createDt;
 
-    @Column
-    private LocalDateTime updateDt;
+    @LastModifiedDate
+    @Column(columnDefinition = "DATE")
+    private LocalDate updatedDt;
 
     @OneToOne
     private Store store;

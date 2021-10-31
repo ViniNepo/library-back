@@ -29,6 +29,10 @@ public class BookDto {
     private StoreDto store;
     private List<TypeValueDto> typeValue;
 
+    public BookDto(){
+
+    }
+
     public BookDto(Book book) {
         this.id = book.getId();
         this.title = book.getTitle();
