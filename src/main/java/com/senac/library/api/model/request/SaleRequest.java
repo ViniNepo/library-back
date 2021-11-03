@@ -12,17 +12,7 @@ import java.util.Set;
 @Data
 public class SaleRequest {
 
-    private LocalDate createDt;
-    private Boolean active;
     private Long customerId;
     private Address address;
     private Set<CartItem> cartItems = new HashSet<>();
-
-    public SaleRequest(){
-
-    }
-
-    public SaleRequest(Sale sale) {
-
-    }
 }

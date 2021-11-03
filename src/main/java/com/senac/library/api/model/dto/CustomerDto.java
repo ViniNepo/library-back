@@ -17,8 +17,6 @@ public class CustomerDto {
     private String cpf;
     private String name;
     private String email;
-    private LocalDate createDt;
-    private LocalDate updatedDt;
     private List<AddressDto> address;
     private List<ContactDto> contactList;
     private List<CreditCardDto> creditCards;

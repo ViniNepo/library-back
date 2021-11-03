@@ -1,6 +1,7 @@
 package com.senac.library.api.service;
 
 import com.senac.library.api.model.dto.BookDto;
+import com.senac.library.api.model.dto.SaleDto;
 import com.senac.library.api.model.entities.Book;
 import com.senac.library.api.model.entities.Sale;
 import com.senac.library.api.model.request.BookRequest;
@@ -11,5 +12,8 @@ import java.util.Optional;
 
 public interface SaleService {
 
-    Sale createSale(SaleRequest sale);
+    List<SaleDto> getAllSales();
+    SaleDto getSaleById(Long id);
+    List<SaleDto> getSalesByCustomerId(Long customerId);
+    SaleDto createSale(SaleRequest sale);
 }

@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "sale")
@@ -30,9 +32,35 @@ public class SaleController {
     @Autowired
     private SaleService saleService;
 
+    @GetMapping
+    public ResponseEntity<List<SaleDto>> getAllSales() {
+        List<SaleDto> sales = saleService.getAllSales();
+
+        if(sales.isEmpty()) {
+            return ResponseEntity.unprocessableEntity().build();
+        }
+
+        return ResponseEntity.ok(sales);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SaleDto> getSaleById(@PathVariable Long id) {
+        return ResponseEntity.ok(saleService.getSaleById(id));
+    }
+
+    @GetMapping("/customer/{id}")
+    public ResponseEntity<List<SaleDto>> getAllSalesByCustomer(@PathVariable Long id) {
+        List<SaleDto> sales = saleService.getSalesByCustomerId(id);
+
+        if(sales.isEmpty()) {
+            return ResponseEntity.unprocessableEntity().build();
+        }
+
+        return ResponseEntity.ok(sales);
+    }
+
     @PostMapping
-    public ResponseEntity<Object> createSale(@RequestBody SaleRequest sale) {
-        Sale s = saleService.createSale(sale);
-        return ResponseEntity.ok(new SaleDto(s));
+    public ResponseEntity<SaleDto> createSale(@RequestBody SaleRequest sale) {
+        return ResponseEntity.ok(saleService.createSale(sale));
     }
 }
