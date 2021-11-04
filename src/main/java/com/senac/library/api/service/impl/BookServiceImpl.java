@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.time.LocalDate.now;
 
@@ -38,12 +39,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> findBooksUpdated() {
-        return bookRepository.findAllByUpdatedDtBetween(now().minusDays(30L), now());
+        List<Book> books = bookRepository.findAllByUpdatedDtBetween(now().minusDays(30L), now());
+        return books.stream().limit(10).collect(Collectors.toList());
     }
 
     @Override
     public List<Book> findNewBooks() {
-        return bookRepository.findAllByCreateDtIsBetween(now().minusDays(30L), now());
+        List<Book> books = bookRepository.findAllByCreateDtIsBetween(now().minusDays(30L), now());
+        return books.stream().limit(10).collect(Collectors.toList());
     }
 
     @Override

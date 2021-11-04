@@ -21,10 +21,9 @@ import com.senac.library.api.service.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.senac.library.api.enuns.BookCategoryEnum.ONLINE;
@@ -54,11 +53,6 @@ public class SaleServiceImpl implements SaleService {
 
         if (sales.isEmpty()) {
             throw new RuntimeException();
-        }
-
-        List<CartItem> a = cartItemRepository.findAll();
-        for(Sale sale: sales) {
-            sale.setCartItems(a.stream().filter(x -> x.getSale().getId().equals(sale.getId())).collect(Collectors.toSet()));
         }
 
         List<SaleDto> dtos = sales.stream().map(SaleDto::new).collect(Collectors.toList());
@@ -140,7 +134,7 @@ public class SaleServiceImpl implements SaleService {
         sale = saleRepository.save(sale);
 
         double total = 0.0;
-        Set<CartItem> cartItems = new HashSet<>();
+        List<CartItem> cartItems = new ArrayList<>();
         for (CartItemRequest item : saleRequest.getCartItems()) {
             CartItem cartItem = new CartItem();
 

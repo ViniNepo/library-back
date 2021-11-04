@@ -1,12 +1,12 @@
 package com.senac.library.api.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.senac.library.api.enuns.BookCategoryEnum;
 import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +30,7 @@ public class TypeValue implements Serializable {
     private BookCategoryEnum bookCategoryEnum;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "typeValues")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "typeValues")
     private List<Book> bookList = new ArrayList<>();
 
     public TypeValue() {

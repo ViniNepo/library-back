@@ -1,22 +1,17 @@
 package com.senac.library.api.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.senac.library.api.enuns.TypeContactEnum;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -34,7 +29,7 @@ public class Contact implements Serializable {
     private String number;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "contacts")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "contacts")
     private List<Customer> customerList;
 
     public Contact() {

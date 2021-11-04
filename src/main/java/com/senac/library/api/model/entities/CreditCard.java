@@ -1,12 +1,11 @@
 package com.senac.library.api.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.senac.library.api.enuns.TypeContactEnum;
 import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,7 +37,7 @@ public class CreditCard implements Serializable {
     private String securityNumber;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "creditCards")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "creditCards")
     private List<Customer> customerList;
 
     public CreditCard() {

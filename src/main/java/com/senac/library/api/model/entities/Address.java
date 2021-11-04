@@ -1,22 +1,18 @@
 package com.senac.library.api.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +53,7 @@ public class Address implements Serializable {
     private List<Customer> customerList;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy =  "address")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy =  "address")
     private List<Sale> saleList = new ArrayList<>();
 
     public Address() {

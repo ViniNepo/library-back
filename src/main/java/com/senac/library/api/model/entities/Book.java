@@ -1,7 +1,6 @@
 package com.senac.library.api.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.senac.library.api.model.request.BookRequest;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -80,7 +80,7 @@ public class Book implements Serializable {
     private List<TypeValue> typeValues = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "id.book")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
     private Set<CartItem> cartItems = new HashSet<>();
 
     public Book() {
