@@ -1,24 +1,32 @@
 package com.senac.library.api.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.senac.library.api.model.request.BookRequest;
 import lombok.Data;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Data
 @Entity
-public class Book {
+public class Book implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,6 +79,7 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "type_id"))
     private List<TypeValue> typeValues = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "id.book")
     private Set<CartItem> cartItems = new HashSet<>();
 
@@ -106,6 +115,7 @@ public class Book {
         this.imageUrl = request.getImageUrl();
     }
 
+    @JsonIgnore
     public List<Sale> getSales() {
         List<Sale> saleList = new ArrayList<>();
         for(CartItem s: cartItems) {

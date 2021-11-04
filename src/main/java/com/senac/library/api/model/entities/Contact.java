@@ -1,5 +1,7 @@
 package com.senac.library.api.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.senac.library.api.enuns.TypeContactEnum;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,12 +15,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
 @Entity
-public class Contact {
+public class Contact implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +33,7 @@ public class Contact {
     @Column
     private String number;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "contacts")
     private List<Customer> customerList;
 

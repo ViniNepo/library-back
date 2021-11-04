@@ -1,6 +1,7 @@
 package com.senac.library.api.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
@@ -10,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,7 +35,7 @@ import java.util.Set;
 
 @Data
 @Entity
-public class Sale {
+public class Sale implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
@@ -56,7 +58,7 @@ public class Sale {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(mappedBy = "id.sale")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "id.sale")
     private Set<CartItem> cartItems = new HashSet<>();
 
     public Sale() {

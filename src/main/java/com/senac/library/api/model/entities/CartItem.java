@@ -1,18 +1,21 @@
 package com.senac.library.api.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.senac.library.api.enuns.BookCategoryEnum;
 import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import java.io.Serializable;
 
 @Data
 @Entity
-public class CartItem {
+public class CartItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     @EmbeddedId
     private CartItemPk id = new CartItemPk();
 
@@ -32,6 +35,7 @@ public class CartItem {
         this.typeValue = typeValue;
     }
 
+    @JsonIgnore
     public Sale getSale() {
         return id.getSale();
     }
@@ -46,5 +50,9 @@ public class CartItem {
 
     public void setBook(Book b) {
         id.setBook(b);
+    }
+
+    public CartItemPk getId() {
+        return id;
     }
 }

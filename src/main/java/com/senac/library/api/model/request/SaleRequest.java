@@ -14,5 +14,5 @@ public class SaleRequest {
 
     private Long customerId;
     private Address address;
-    private Set<CartItem> cartItems = new HashSet<>();
+    private Set<CartItemRequest> cartItems = new HashSet<>();
 }

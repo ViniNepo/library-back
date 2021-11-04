@@ -13,6 +13,6 @@ import java.util.Optional;
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     Optional<Book> findByAuthorAndTitle(String author, String name);
-    List<Book> findAllByCreateDtIsBefore(LocalDate author);
-    List<Book> findAllByUpdatedDtBefore(LocalDate author);
+    List<Book> findAllByCreateDtIsBetween(LocalDate before, LocalDate now);
+    List<Book> findAllByUpdatedDtBetween(LocalDate before, LocalDate now);
 }

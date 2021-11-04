@@ -25,7 +25,7 @@ public class BookController {
         Optional<Book> book = bookService.getBookById(id);
 
         if(book.isEmpty()){
-            return ResponseEntity.ok(new BookDto());
+            throw new RuntimeException();
         }
         return ResponseEntity.ok(new BookDto(book.get()));
     }

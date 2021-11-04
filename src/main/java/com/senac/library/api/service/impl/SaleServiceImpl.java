@@ -10,6 +10,7 @@ import com.senac.library.api.model.entities.CartItem;
 import com.senac.library.api.model.entities.Customer;
 import com.senac.library.api.model.entities.Sale;
 import com.senac.library.api.model.entities.TypeValue;
+import com.senac.library.api.model.request.CartItemRequest;
 import com.senac.library.api.model.request.SaleRequest;
 import com.senac.library.api.repository.AddressRepository;
 import com.senac.library.api.repository.CartItemRepository;
@@ -53,6 +54,11 @@ public class SaleServiceImpl implements SaleService {
 
         if (sales.isEmpty()) {
             throw new RuntimeException();
+        }
+
+        List<CartItem> a = cartItemRepository.findAll();
+        for(Sale sale: sales) {
+            sale.setCartItems(a.stream().filter(x -> x.getSale().getId().equals(sale.getId())).collect(Collectors.toSet()));
         }
 
         List<SaleDto> dtos = sales.stream().map(SaleDto::new).collect(Collectors.toList());
@@ -133,9 +139,10 @@ public class SaleServiceImpl implements SaleService {
         sale.setCreateDt(now());
         sale = saleRepository.save(sale);
 
-        Double total = 0.0;
+        double total = 0.0;
         Set<CartItem> cartItems = new HashSet<>();
-        for (CartItem item : saleRequest.getCartItems()) {
+        for (CartItemRequest item : saleRequest.getCartItems()) {
+            CartItem cartItem = new CartItem();
 
             if (!item.getTypeValue().equals(ONLINE)) {
 
@@ -146,9 +153,11 @@ public class SaleServiceImpl implements SaleService {
 
             total += getValue(item.getTypeValue(), item.getBook().getTypeValues()) * item.getQuantity();
 
-
-            item.setSale(sale);
-            cartItems.add(cartItemRepository.save(item));
+            cartItem.setSale(sale);
+            cartItem.setBook(item.getBook());
+            cartItem.setQuantity(item.getQuantity());
+            cartItem.setTypeValue(item.getTypeValue());
+            cartItems.add(cartItemRepository.save(cartItem));
         }
         sale.setCartItems(cartItems);
 

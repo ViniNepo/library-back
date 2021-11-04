@@ -1,5 +1,7 @@
 package com.senac.library.api.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -7,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -64,7 +67,7 @@ public class Customer implements Serializable, UserDetails {
             inverseJoinColumns = @JoinColumn(name = "credit_card_id"))
     private List<CreditCard> creditCards = new ArrayList<>();
 
-    @OneToMany(mappedBy =  "customer")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy =  "customer")
     private List<Sale> saleList = new ArrayList<>();
 
     public Customer() {

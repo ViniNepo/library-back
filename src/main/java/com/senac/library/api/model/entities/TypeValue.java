@@ -1,5 +1,7 @@
 package com.senac.library.api.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.senac.library.api.enuns.BookCategoryEnum;
 import lombok.Data;
 
@@ -9,12 +11,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
-public class TypeValue {
+public class TypeValue implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +29,7 @@ public class TypeValue {
     @Column
     private BookCategoryEnum bookCategoryEnum;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "typeValues")
     private List<Book> bookList = new ArrayList<>();
 

@@ -1,9 +1,12 @@
 package com.senac.library.api.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,13 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
-public class Address {
+public class Address implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,10 +52,12 @@ public class Address {
     @Column
     private Boolean principal;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "addresses")
     private List<Customer> customerList;
 
-    @OneToMany(mappedBy =  "address")
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy =  "address")
     private List<Sale> saleList = new ArrayList<>();
 
     public Address() {
