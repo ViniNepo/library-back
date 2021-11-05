@@ -3,7 +3,6 @@ package com.senac.library.api.service.impl;
 import com.senac.library.api.enuns.BookCategoryEnum;
 import com.senac.library.api.model.dto.CartItemDto;
 import com.senac.library.api.model.dto.SaleDto;
-import com.senac.library.api.model.dto.TypeValueDto;
 import com.senac.library.api.model.entities.Address;
 import com.senac.library.api.model.entities.Book;
 import com.senac.library.api.model.entities.CartItem;
@@ -27,6 +26,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.senac.library.api.enuns.BookCategoryEnum.ONLINE;
+import static com.senac.library.api.utils.Utils.getValueDto;
 import static java.time.LocalDate.now;
 
 @Service
@@ -162,16 +162,6 @@ public class SaleServiceImpl implements SaleService {
 
     private Double getValue(BookCategoryEnum typeValue, List<TypeValue> typeValues) {
         Optional<TypeValue> t = typeValues.stream().filter(x -> x.getBookCategoryEnum().equals(typeValue)).findFirst();
-
-        if (t.isEmpty()) {
-            throw new RuntimeException();
-        }
-
-        return t.get().getValue();
-    }
-
-    private Double getValueDto(BookCategoryEnum typeValue, List<TypeValueDto> typeValues) {
-        Optional<TypeValueDto> t = typeValues.stream().filter(x -> x.getBookCategoryEnum().equals(typeValue)).findFirst();
 
         if (t.isEmpty()) {
             throw new RuntimeException();
