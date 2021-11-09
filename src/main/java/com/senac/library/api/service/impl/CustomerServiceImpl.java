@@ -11,12 +11,8 @@ import com.senac.library.api.repository.CreditCardRepository;
 import com.senac.library.api.repository.CustomerRepository;
 import com.senac.library.api.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpClientErrorException.UnprocessableEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer createUser(Customer customer) {
 
         if(customerRepository.getCustomerByCpfAndEmail(customer.getCpf(), customer.getEmail()).isPresent()) {
-            throw new RuntimeException();
+            customerException("customer already exist");
         }
 
         List<Address> address = addressRepository.saveAll(customer.getAddresses());
@@ -75,8 +71,10 @@ public class CustomerServiceImpl implements CustomerService {
 
         Optional<Customer> customer = customerRepository.findById(id);
 
-        if(customer.isPresent()) {
-            customerRepository.deleteById(id);
+        if(customer.isEmpty()) {
+            customerException("customer not found");
         }
+
+        customerRepository.deleteById(id);
     }
 }

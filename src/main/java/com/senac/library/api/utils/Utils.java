@@ -9,6 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.List;
 import java.util.Optional;
 
+import static com.senac.library.api.excepitions.SaleException.saleException;
+
 public class Utils {
 	
 	public static Boolean isAuthenticated() {
@@ -24,7 +26,7 @@ public class Utils {
 		Optional<TypeValueDto> t = typeValues.stream().filter(x -> x.getBookCategoryEnum().equals(typeValue)).findFirst();
 
 		if (t.isEmpty()) {
-			throw new RuntimeException();
+			saleException("cart need to have a correct category enum");
 		}
 
 		return t.get().getValue();

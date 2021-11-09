@@ -7,19 +7,14 @@ import com.senac.library.api.model.dto.SaleDto;
 import com.senac.library.api.model.entities.Book;
 import com.senac.library.api.model.entities.Customer;
 import com.senac.library.api.model.entities.Sale;
-import com.senac.library.api.repository.AddressRepository;
 import com.senac.library.api.repository.BookRepository;
-import com.senac.library.api.repository.CartItemRepository;
 import com.senac.library.api.repository.CustomerRepository;
 import com.senac.library.api.repository.SaleRepository;
-import com.senac.library.api.repository.StoreRepository;
 import com.senac.library.api.service.DashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.ResolverStyle;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,27 +27,14 @@ public class DashboardServiceImpl implements DashboardService {
     private SaleRepository saleRepository;
 
     @Autowired
-    private StoreRepository storeRepository;
-
-    @Autowired
-    private AddressRepository addressRepository;
-
-    @Autowired
     private CustomerRepository customerRepository;
-
-    @Autowired
-    private CartItemRepository cartItemRepository;
 
     @Autowired
     private BookRepository bookRepository;
 
-
     @Override
     public DashboardDto getDashboard() {
         DashboardDto dto = new DashboardDto();
-        DateTimeFormatter fmt = DateTimeFormatter
-                .ofPattern("dd/MM/yyyy")
-                .withResolverStyle(ResolverStyle.STRICT);
 
         List<Book> books = bookRepository.findAll();
         List<Sale> sales = saleRepository.findAll();

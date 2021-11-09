@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.senac.library.api.excepitions.BookException.bookException;
+
 @RestController
 @RequestMapping(path = "book")
 @CrossOrigin(origins = "*")
@@ -25,7 +27,7 @@ public class BookController {
         Optional<Book> book = bookService.getBookById(id);
 
         if(book.isEmpty()){
-            throw new RuntimeException();
+            bookException("book cannot be empty");
         }
         return ResponseEntity.ok(new BookDto(book.get()));
     }

@@ -12,12 +12,12 @@ import com.senac.library.api.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.senac.library.api.excepitions.BookException.bookException;
 import static java.time.LocalDate.now;
 
 @Service
@@ -53,7 +53,7 @@ public class BookServiceImpl implements BookService {
     public BookDto createNewBook(BookRequest request) {
 
         if(bookRepository.findByAuthorAndTitle(request.getAuthor(), request.getTitle()).isPresent()) {
-            throw new RuntimeException();
+            bookException("book already exist");
         }
 
         List<TypeValue> typeValueList = new ArrayList<>();
@@ -84,7 +84,7 @@ public class BookServiceImpl implements BookService {
         Optional<Book> book = bookRepository.findById(bookDto.getId());
 
         if(book.isEmpty()) {
-            throw new RuntimeException();
+            bookException("book not found");
         }
 
         List<TypeValue> typeValueList = new ArrayList<>();
@@ -105,7 +105,7 @@ public class BookServiceImpl implements BookService {
         Optional<Book> book = bookRepository.findById(id);
 
         if(book.isEmpty()) {
-            throw new RuntimeException();
+            bookException("book not found");
         }
 
         bookRepository.deleteById(id);

@@ -7,7 +7,6 @@ import javax.annotation.PostConstruct;
 @Component
 public class Mock {
 
-
 	@PostConstruct
 	public void mock() {
 	}
