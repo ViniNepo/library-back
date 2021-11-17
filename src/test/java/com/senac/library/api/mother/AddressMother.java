@@ -11,6 +11,7 @@ public class AddressMother {
     public static Address createAddress() {
         Address address = new Address();
 
+        address.setId(1L);
         address.setStreet("rua vinhedo");
         address.setNumber("100A");
         address.setComplement("apto 5");

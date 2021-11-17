@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -124,4 +125,16 @@ public class Book implements Serializable {
         return saleList;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(id, book.id) && Objects.equals(title, book.title) && Objects.equals(description, book.description) && Objects.equals(content, book.content) && Objects.equals(author, book.author) && Objects.equals(editor, book.editor) && Objects.equals(publishDate, book.publishDate) && Objects.equals(numberPages, book.numberPages) && Objects.equals(isbn, book.isbn) && Objects.equals(imageUrl, book.imageUrl) && Objects.equals(gender, book.gender) && Objects.equals(createDt, book.createDt) && Objects.equals(updatedDt, book.updatedDt) && Objects.equals(store, book.store) && Objects.equals(typeValues, book.typeValues);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, content, author, editor, publishDate, numberPages, isbn, imageUrl, gender, createDt, updatedDt, store, typeValues);
+    }
 }

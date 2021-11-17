@@ -42,20 +42,28 @@ public class DashboardServiceImpl implements DashboardService {
 
         List<SaleDto> dtos = sales.stream().map(SaleDto::new).collect(Collectors.toList());
 
-        for(Book book: books) {
-            dto.setBookWithMaxStorage(new BookDto(book));
-            dto.setBookWithLowStorage(new BookDto(book));
-            dto.setBestSellerBook(new BookDto(book));
+        if (!books.isEmpty()) {
+            for (Book book : books) {
+                if (dto.getBookWithMaxStorage() == null) {
+                    dto.setBookWithMaxStorage(new BookDto(book));
+                }
+                if (dto.getBookWithLowStorage() == null) {
+                    dto.setBookWithLowStorage(new BookDto(book));
+                }
+                if (dto.getBestSellerBook() == null) {
+                    dto.setBestSellerBook(new BookDto(book));
+                }
 
-            if(book.getStore().getAvailableBooks() < dto.getBookWithLowStorage().getStore().getAvailableBooks()) {
-                dto.setBookWithLowStorage(new BookDto(book));
-            }
-            if(book.getStore().getAvailableBooks() > dto.getBookWithMaxStorage().getStore().getAvailableBooks()) {
-                dto.setBookWithMaxStorage(new BookDto(book));
-            }
+                if (book.getStore().getAvailableBooks() < dto.getBookWithLowStorage().getStore().getAvailableBooks()) {
+                    dto.setBookWithLowStorage(new BookDto(book));
+                }
+                if (book.getStore().getAvailableBooks() > dto.getBookWithMaxStorage().getStore().getAvailableBooks()) {
+                    dto.setBookWithMaxStorage(new BookDto(book));
+                }
 
-            if(book.getStore().getSoldBooks() > dto.getBestSellerBook().getStore().getSoldBooks()) {
-                dto.setBestSellerBook(new BookDto(book));
+                if (book.getStore().getSoldBooks() > dto.getBestSellerBook().getStore().getSoldBooks()) {
+                    dto.setBestSellerBook(new BookDto(book));
+                }
             }
         }
 
@@ -65,7 +73,7 @@ public class DashboardServiceImpl implements DashboardService {
             for (CartItemDto cart : item.getCartItems()) {
                 item.setTotal(total += getValueDto(cart.getTypeValue(), cart.getBookDto().getTypeValue()) * cart.getQuantity());
 
-                if(item.getCreateDt().compareTo(LocalDate.now()) != -1) {
+                if (item.getCreateDt().compareTo(LocalDate.now()) != -1) {
                     totalSalesToday++;
                 }
             }

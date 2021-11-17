@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.senac.library.api.model.dto.LoginDto;
 import com.senac.library.api.model.entities.Customer;
 import com.senac.library.api.service.CustomerService;
+import com.senac.library.api.service.LoginService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@ActiveProfiles("test")
 @WebMvcTest(controllers = CustomerController.class)
+@ActiveProfiles("dev")
 @AutoConfigureMockMvc
 class CustomerControllerTest {
 
@@ -36,6 +37,9 @@ class CustomerControllerTest {
 
     @Autowired
     MockMvc mvc;
+
+    @MockBean
+    LoginService loginService;
 
     @MockBean
     CustomerService service;

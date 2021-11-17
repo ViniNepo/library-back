@@ -3,10 +3,13 @@ package com.senac.library.api.mother;
 import com.senac.library.api.model.entities.Book;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.senac.library.api.mother.StoreMother.createStore;
-import static com.senac.library.api.mother.TypeValueMother.createTypeValue;
+import static com.senac.library.api.mother.TypeValueMother.createTypeValueList;
+import static com.senac.library.api.mother.TypeValueMother.createTypeValueListOnlineBook;
 
 public class BookMother {
 
@@ -19,14 +22,79 @@ public class BookMother {
         book.setEditor("eu mesmo");
         book.setContent("bla bla bla");
         book.setDescription("description");
-        book.setCreateDt(LocalDate.now());
-        book.setUpdatedDt(LocalDate.now());
+        book.setCreateDt(LocalDate.now().minusMonths(2));
+        book.setUpdatedDt(LocalDate.now().minusMonths(2));
         book.setGender("gender");
         book.setIsbn("123");
         book.setNumberPages(10);
         book.setPublishDate(LocalDate.now().minusYears(5));
         book.setStore(createStore());
-        book.setTypeValues(createTypeValue());
+        book.setTypeValues(createTypeValueList());
+
+        return book;
+    }
+
+    public static Book createBookOnlineType() {
+        Book book = new Book();
+
+        book.setId(1L);
+        book.setTitle("title");
+        book.setAuthor("eu mesmo");
+        book.setEditor("eu mesmo");
+        book.setContent("bla bla bla");
+        book.setDescription("description");
+        book.setCreateDt(LocalDate.now().minusMonths(2));
+        book.setUpdatedDt(LocalDate.now().minusMonths(2));
+        book.setGender("gender");
+        book.setIsbn("123");
+        book.setNumberPages(10);
+        book.setPublishDate(LocalDate.now().minusYears(5));
+        book.setStore(createStore());
+        book.setTypeValues(createTypeValueListOnlineBook());
+
+        return book;
+    }
+
+    public static Book createBookUpdated() {
+        Book book = new Book();
+
+        book.setId(2L);
+        book.setTitle("title");
+        book.setAuthor("eu mesmo");
+        book.setEditor("eu mesmo");
+        book.setContent("bla bla bla");
+        book.setDescription("description");
+        book.setCreateDt(LocalDate.now().minusMonths(2));
+        book.setUpdatedDt(LocalDate.now().minusDays(10));
+        book.setGender("gender");
+        book.setIsbn("123");
+        book.setNumberPages(10);
+        book.setPublishDate(LocalDate.now().minusYears(5));
+        book.setStore(createStore());
+        book.setTypeValues(createTypeValueList());
+
+        book.getStore().setBook(book);
+
+        return book;
+    }
+
+    public static Book createBookNew() {
+        Book book = new Book();
+
+        book.setId(3L);
+        book.setTitle("title");
+        book.setAuthor("eu mesmo");
+        book.setEditor("eu mesmo");
+        book.setContent("bla bla bla");
+        book.setDescription("description");
+        book.setCreateDt(LocalDate.now().minusDays(10));
+        book.setUpdatedDt(LocalDate.now().minusMonths(2));
+        book.setGender("gender");
+        book.setIsbn("123");
+        book.setNumberPages(10);
+        book.setPublishDate(LocalDate.now().minusYears(5));
+        book.setStore(createStore());
+        book.setTypeValues(createTypeValueList());
 
         book.getStore().setBook(book);
 
@@ -49,10 +117,20 @@ public class BookMother {
         book.get().setNumberPages(10);
         book.get().setPublishDate(LocalDate.now().minusYears(5));
         book.get().setStore(createStore());
-        book.get().setTypeValues(createTypeValue());
+        book.get().setTypeValues(createTypeValueList());
 
         book.get().getStore().setBook(book.get());
 
         return book;
+    }
+
+    public static List<Book> createBookList() {
+        List<Book> bookList = new ArrayList<>();
+
+        bookList.add(createBook());
+        bookList.add(createBookNew());
+        bookList.add(createBookUpdated());
+
+        return bookList;
     }
 }

@@ -1,6 +1,7 @@
 package com.senac.library.api.controller;
 
 import com.senac.library.api.service.DashboardService;
+import com.senac.library.api.service.LoginService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +20,18 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@ActiveProfiles("test")
 @WebMvcTest(controllers = DashboardController.class)
 @AutoConfigureMockMvc
+@ActiveProfiles("dev")
 class DashboardControllerTest {
 
     static String DASHBOARD_API = "/dashboard";
 
     @Autowired
     MockMvc mvc;
+
+    @MockBean
+    LoginService loginService;
 
     @MockBean
     DashboardService service;

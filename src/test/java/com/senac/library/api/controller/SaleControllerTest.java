@@ -3,6 +3,7 @@ package com.senac.library.api.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.senac.library.api.model.dto.SaleDto;
 import com.senac.library.api.model.request.SaleRequest;
+import com.senac.library.api.service.LoginService;
 import com.senac.library.api.service.SaleService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@ActiveProfiles("test")
+@ActiveProfiles("dev")
 @WebMvcTest(controllers = SaleController.class)
 @AutoConfigureMockMvc
 class SaleControllerTest {
@@ -39,6 +40,9 @@ class SaleControllerTest {
 
     @Autowired
     MockMvc mvc;
+
+    @MockBean
+    private LoginService loginService;
 
     @MockBean
     SaleService service;
@@ -74,7 +78,7 @@ class SaleControllerTest {
     public void findSaleByCustomerIdTest() throws Exception {
 
         List<SaleDto> saleDtoList = createListSale().stream().map(SaleDto::new).collect(Collectors.toList());
-        given(service.getAllSales()).willReturn(saleDtoList);
+        given(service.getSalesByCustomerId(anyLong())).willReturn(saleDtoList);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .get(SALE_API.concat("/customer/1"))

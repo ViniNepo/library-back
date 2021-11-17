@@ -5,6 +5,7 @@ import com.senac.library.api.model.dto.BookDto;
 import com.senac.library.api.model.entities.Book;
 import com.senac.library.api.model.request.BookRequest;
 import com.senac.library.api.service.BookService;
+import com.senac.library.api.service.LoginService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,18 +33,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@ActiveProfiles("test")
 @WebMvcTest(controllers = BookController.class)
+@ActiveProfiles("dev")
 @AutoConfigureMockMvc
+
 class BookControllerTest {
 
     static String BOOK_API = "/book";
 
     @Autowired
-    MockMvc mvc;
+    private MockMvc mvc;
 
     @MockBean
-    BookService service;
+    private LoginService loginService;
+
+    @MockBean
+    private BookService service;
 
     @Test
     public void listAllTest() throws Exception {

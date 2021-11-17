@@ -2,6 +2,8 @@ package com.senac.library.api.mother;
 
 import com.senac.library.api.model.entities.Customer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.senac.library.api.mother.AddressMother.createAddresses;
@@ -38,5 +40,13 @@ public class CustomerMother {
         customer.get().setCreditCards(createCreditCards());
 
         return customer;
+    }
+
+    public static List<Customer> createCustomerList() {
+        List<Customer> customers = new ArrayList<>();
+
+        customers.add(createCustomer());
+
+        return customers;
     }
 }
