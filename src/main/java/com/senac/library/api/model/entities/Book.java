@@ -63,6 +63,9 @@ public class Book implements Serializable {
     @Column
     private String gender;
 
+    @Column
+    private Boolean activate;
+
     @CreatedDate
     @Column(columnDefinition = "DATE")
     private LocalDate createDt;
@@ -114,6 +117,7 @@ public class Book implements Serializable {
         this.numberPages = request.getNumberPages();
         this.isbn = request.getIsbn();
         this.imageUrl = request.getImageUrl();
+
     }
 
     @JsonIgnore

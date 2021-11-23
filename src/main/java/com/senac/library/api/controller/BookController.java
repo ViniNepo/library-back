@@ -56,8 +56,8 @@ public class BookController {
     }
 
     @PutMapping
-    public ResponseEntity<Object> updateBook(@RequestBody BookDto bookRequest) {
-        return ResponseEntity.ok(bookService.updateById(bookRequest));
+    public ResponseEntity<Object> updateBook(@RequestBody Book bookRequest) {
+        return ResponseEntity.ok(bookService.updateByBook(bookRequest));
     }
 
     @DeleteMapping("{id}")

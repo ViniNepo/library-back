@@ -65,11 +65,11 @@ class CustomerServiceTest {
 
     @Test
     void getByEmailTest() {
-        when(customerRepository.getCustomerByEmail(anyString())).thenReturn(createOptionCustomer());
+        when(customerRepository.getCustomerByEmailAndActivateIsTrue(anyString())).thenReturn(createOptionCustomer());
 
         Optional<Customer> customer = customerService.getByEmail(createLoginDto());
 
-        verify(customerRepository, times(1)).getCustomerByEmail(anyString());
+        verify(customerRepository, times(1)).getCustomerByEmailAndActivateIsTrue(anyString());
 
         assertThat(customer).isPresent();
     }
@@ -77,7 +77,7 @@ class CustomerServiceTest {
     @Test
     void createUserTest() {
 
-        when(customerRepository.getCustomerByCpfAndEmail(anyString(), anyString())).thenReturn(Optional.empty());
+        when(customerRepository.getCustomerByCpfAndEmailAndActivateIsTrue(anyString(), anyString())).thenReturn(Optional.empty());
         when(customerRepository.save(any(Customer.class))).thenReturn(createCustomer());
         when(addressRepository.saveAll(any(List.class))).thenReturn(createAddresses());
         when(creditCardRepository.saveAll(any(List.class))).thenReturn(createCreditCards());
@@ -85,7 +85,7 @@ class CustomerServiceTest {
 
         Customer customer = customerService.createUser(createCustomer());
 
-        verify(customerRepository, times(1)).getCustomerByCpfAndEmail(anyString(), anyString());
+        verify(customerRepository, times(1)).getCustomerByCpfAndEmailAndActivateIsTrue(anyString(), anyString());
         verify(customerRepository, times(1)).save(any(Customer.class));
         verify(addressRepository, times(1)).saveAll(any(List.class));
         verify(creditCardRepository, times(1)).saveAll(any(List.class));
@@ -97,12 +97,12 @@ class CustomerServiceTest {
     @Test
     void userAlreadyExistTest() {
 
-        when(customerRepository.getCustomerByCpfAndEmail(anyString(), anyString())).thenReturn(createOptionCustomer());
+        when(customerRepository.getCustomerByCpfAndEmailAndActivateIsTrue(anyString(), anyString())).thenReturn(createOptionCustomer());
 
         assertThatThrownBy(() -> customerService.createUser(createCustomer())).isInstanceOf(RuntimeException.class)
         .hasMessage("customer already exist");
 
-        verify(customerRepository, times(1)).getCustomerByCpfAndEmail(anyString(), anyString());
+        verify(customerRepository, times(1)).getCustomerByCpfAndEmailAndActivateIsTrue(anyString(), anyString());
         verify(customerRepository, times(0)).save(any(Customer.class));
         verify(addressRepository, times(0)).saveAll(any(List.class));
         verify(creditCardRepository, times(0)).saveAll(any(List.class));
@@ -111,6 +111,36 @@ class CustomerServiceTest {
 
     @Test
     void updateCustomerTest() {
+        when(customerRepository.findById(anyLong())).thenReturn(createOptionCustomer());
+        when(customerRepository.save(any(Customer.class))).thenReturn(createCustomer());
+        when(addressRepository.saveAll(any(List.class))).thenReturn(createAddresses());
+        when(creditCardRepository.saveAll(any(List.class))).thenReturn(createCreditCards());
+        when(contactRepository.saveAll(any(List.class))).thenReturn(createContacts());
+
+        Customer customer = customerService.updateCustomer(createCustomer());
+
+        verify(customerRepository, times(1)).findById(anyLong());
+        verify(customerRepository, times(1)).save(any(Customer.class));
+        verify(addressRepository, times(1)).saveAll(any(List.class));
+        verify(creditCardRepository, times(1)).saveAll(any(List.class));
+        verify(contactRepository, times(1)).saveAll(any(List.class));
+
+        assertThat(customer.getId()).isNotNull();
+    }
+
+    @Test
+    void errorUpdateCustomerTest() {
+        when(customerRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> customerService.updateCustomer(createCustomer()))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("customer not found");
+
+        verify(customerRepository, times(1)).findById(anyLong());
+        verify(customerRepository, times(0)).save(any(Customer.class));
+        verify(addressRepository, times(0)).saveAll(any(List.class));
+        verify(creditCardRepository, times(0)).saveAll(any(List.class));
+        verify(contactRepository, times(0)).saveAll(any(List.class));
     }
 
     @Test
@@ -119,7 +149,7 @@ class CustomerServiceTest {
 
         customerService.deleteById(1L);
 
-        verify(customerRepository, times(1)).deleteById(anyLong());
+        verify(customerRepository, times(1)).save(any(Customer.class));
     }
 
     @Test

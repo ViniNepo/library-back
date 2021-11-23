@@ -39,26 +39,27 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> findBooksUpdated() {
-        List<Book> books = bookRepository.findAllByUpdatedDtBetween(now().minusDays(30L), now());
+        List<Book> books = bookRepository.findAllByUpdatedDtBetweenAndActivateIsTrue(now().minusDays(30L), now());
         return books.stream().limit(10).collect(Collectors.toList());
     }
 
     @Override
     public List<Book> findNewBooks() {
-        List<Book> books = bookRepository.findAllByCreateDtIsBetween(now().minusDays(30L), now());
+        List<Book> books = bookRepository.findAllByCreateDtIsBetweenAndActivateIsTrue(now().minusDays(30L), now());
         return books.stream().limit(10).collect(Collectors.toList());
     }
 
     @Override
     public BookDto createNewBook(BookRequest request) {
 
-        if(bookRepository.findByAuthorAndTitle(request.getAuthor(), request.getTitle()).isPresent()) {
+        if(bookRepository.findByAuthorAndTitleAndActivateIsTrue(request.getAuthor(), request.getTitle()).isPresent()) {
             bookException("book already exist");
         }
 
         List<TypeValue> typeValueList = new ArrayList<>();
         Store store = new Store();
         Book book = new Book(request);
+        book.setActivate(true);
 
         request.getTypeValues().forEach(x -> typeValueList.add(typeValueRepository.save(x)));
 
@@ -75,27 +76,25 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto updateById(BookDto bookDto) {
+    public BookDto updateByBook(Book bookRequest) {
 
-        if(bookRepository.findByAuthorAndTitle(bookDto.getAuthor(), bookDto.getTitle()).isPresent()) {
-            throw new RuntimeException();
-        }
-
-        Optional<Book> book = bookRepository.findById(bookDto.getId());
+        Optional<Book> book = bookRepository.findById(bookRequest.getId());
 
         if(book.isEmpty()) {
             bookException("book not found");
         }
 
-        List<TypeValue> typeValueList = new ArrayList<>();
-        Store store = new Store();
+        List<TypeValue> typeValues = new ArrayList<>();
+        for(TypeValue x: bookRequest.getTypeValues()) {
+            if (checkTypes(x, typeValues)) {
+                typeValues.add(typeValueRepository.save(x));
+            } else {
+                bookException("this type already exist");
+            }
+        }
 
-//        request.getTypeValues().forEach(x -> typeValueList.add(typeValueRepository.save(x)));
-
-        store = storeRepository.save(store);
-
-        book.get().setStore(store);
-        book.get().setTypeValues(typeValueList);
+        book.get().setStore(storeRepository.save(bookRequest.getStore()));
+        book.get().setTypeValues(typeValues);
         book.get().setUpdatedDt(now());
         return new BookDto(bookRepository.save(book.get()));
     }
@@ -108,13 +107,16 @@ public class BookServiceImpl implements BookService {
             bookException("book not found");
         }
 
-        bookRepository.deleteById(id);
-        storeRepository.deleteById(book.get().getStore().getId());
-        book.get().getTypeValues().forEach(x -> typeValueRepository.deleteById(x.getId()));
+        book.get().setActivate(false);
+        bookRepository.save(book.get());
     }
 
     @Override
     public Optional<Book> getBookById(Long id) {
         return bookRepository.findById(id);
+    }
+
+    private boolean checkTypes(TypeValue typeValue, List<TypeValue> typeValues) {
+        return typeValues.stream().noneMatch(x -> x.getBookCategoryEnum().equals(typeValue.getBookCategoryEnum()));
     }
 }

@@ -17,7 +17,7 @@ public interface BookService {
 
     BookDto createNewBook(BookRequest request) throws Exception;
 
-    BookDto updateById(BookDto request);
+    BookDto updateByBook(Book request);
 
     void deleteById(Long id);
 

@@ -44,6 +44,9 @@ public class Customer implements Serializable, UserDetails {
     @Column
     private String email;
 
+    @Column
+    private Boolean activate;
+
     @ManyToMany
     @JoinTable(name = "CUSTOMER_CONTACT",
             joinColumns = @JoinColumn(name = "customer_id"),

@@ -135,7 +135,7 @@ class BookControllerTest {
     public void updateBookTest() throws Exception {
 
         BookDto book = new BookDto(createBook());
-        given(service.updateById((any(BookDto.class)))).willReturn(book);
+        given(service.updateByBook((any(Book.class)))).willReturn(book);
         String json = new ObjectMapper().writeValueAsString(book);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders

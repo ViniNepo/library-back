@@ -40,14 +40,33 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Optional<Customer> getByEmail(LoginDto loginDto) {
-        return customerRepository.getCustomerByEmail(loginDto.getEmail());
+        return customerRepository.getCustomerByEmailAndActivateIsTrue(loginDto.getEmail());
     }
 
     @Override
     public Customer createUser(Customer customer) {
 
-        if(customerRepository.getCustomerByCpfAndEmail(customer.getCpf(), customer.getEmail()).isPresent()) {
+        if(customerRepository.getCustomerByCpfAndEmailAndActivateIsTrue(customer.getCpf(), customer.getEmail()).isPresent()) {
             customerException("customer already exist");
+        }
+
+        List<Address> address = addressRepository.saveAll(customer.getAddresses());
+        List<CreditCard> creditCards = creditCardRepository.saveAll(customer.getCreditCards());
+        List<Contact> contacts = contactRepository.saveAll(customer.getContacts());
+
+        customer.setAddresses(address);
+        customer.setCreditCards(creditCards);
+        customer.setContacts(contacts);
+        customer.setActivate(true);
+
+        return customerRepository.save(customer);
+    }
+
+    @Override
+    public Customer updateCustomer(Customer customer) {
+
+        if(customerRepository.findById(customer.getId()).isEmpty()) {
+            customerException("customer not found");
         }
 
         List<Address> address = addressRepository.saveAll(customer.getAddresses());
@@ -62,11 +81,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer updateCustomer(Customer customer) {
-        return null;
-    }
-
-    @Override
     public void deleteById(Long id) {
 
         Optional<Customer> customer = customerRepository.findById(id);
@@ -75,6 +89,7 @@ public class CustomerServiceImpl implements CustomerService {
             customerException("customer not found");
         }
 
-        customerRepository.deleteById(id);
+        customer.get().setActivate(false);
+        customerRepository.save(customer.get());
     }
 }
