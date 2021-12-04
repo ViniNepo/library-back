@@ -19,7 +19,7 @@ public class LoginService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		Optional<Customer> customer = consumerRepository.getCustomerByEmail(email);
+		Optional<Customer> customer = consumerRepository.getCustomerByEmailAndActivateIsTrue(email);
 
 		if (customer.isPresent()) {
 			return customer.get();

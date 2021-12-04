@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+import static com.senac.library.api.excepitions.CustomerException.customerException;
+
 @RestController
 @RequestMapping(path = "customer")
 @CrossOrigin(origins = "*")
@@ -23,7 +25,7 @@ public class CustomerController {
         Optional<Customer> customer = customerService.getById(id);
 
         if(customer.isEmpty()) {
-            return ResponseEntity.unprocessableEntity().body("deu ruim");
+            customerException("customer cannot be empty");
         }
         return ResponseEntity.ok(new CustomerDto(customer.get()));
     }
@@ -33,7 +35,7 @@ public class CustomerController {
         Optional<Customer> customer = customerService.getByEmail(loginDto);
 
         if(customer.isEmpty()) {
-            return ResponseEntity.unprocessableEntity().body("deu ruim");
+            customerException("customer cannot be empty");
         }
         return ResponseEntity.ok(new CustomerDto(customer.get()));
     }

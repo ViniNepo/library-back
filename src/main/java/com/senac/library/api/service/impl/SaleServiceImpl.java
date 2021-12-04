@@ -26,6 +26,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.senac.library.api.enuns.BookCategoryEnum.ONLINE;
+import static com.senac.library.api.excepitions.CustomerException.customerException;
+import static com.senac.library.api.excepitions.SaleException.saleException;
 import static com.senac.library.api.utils.Utils.getValueDto;
 import static java.time.LocalDate.now;
 
@@ -52,7 +54,7 @@ public class SaleServiceImpl implements SaleService {
         List<Sale> sales = saleRepository.findAll();
 
         if (sales.isEmpty()) {
-            throw new RuntimeException();
+            return new ArrayList<>();
         }
 
         List<SaleDto> dtos = sales.stream().map(SaleDto::new).collect(Collectors.toList());
@@ -72,7 +74,7 @@ public class SaleServiceImpl implements SaleService {
         Optional<Sale> sale = saleRepository.findById(id);
 
         if (sale.isEmpty()) {
-            throw new RuntimeException();
+            saleException("sale not found");
         }
 
         SaleDto dto = new SaleDto(sale.get());
@@ -90,7 +92,7 @@ public class SaleServiceImpl implements SaleService {
         List<Sale> sales = saleRepository.findAllByCustomerId(customerId);
 
         if (sales.isEmpty()) {
-            throw new RuntimeException();
+            return new ArrayList<>();
         }
 
         List<SaleDto> dtos = sales.stream().map(SaleDto::new).collect(Collectors.toList());
@@ -112,11 +114,11 @@ public class SaleServiceImpl implements SaleService {
         Optional<Customer> customer = customerRepository.findById(saleRequest.getCustomerId());
 
         if (customer.isEmpty()) {
-            throw new RuntimeException();
+            customerException("customer cannot be empty");
         }
 
         if (saleRequest.getCartItems().stream().anyMatch(cart -> !checkBooks(cart.getBook(), cart.getQuantity(), cart.getTypeValue()))) {
-            throw new RuntimeException();
+            saleException("cart need to have a correct type value");
         }
 
         if (customer.get().getAddresses().stream().noneMatch(address -> checkFields(address, saleRequest.getAddress()))) {
@@ -164,7 +166,7 @@ public class SaleServiceImpl implements SaleService {
         Optional<TypeValue> t = typeValues.stream().filter(x -> x.getBookCategoryEnum().equals(typeValue)).findFirst();
 
         if (t.isEmpty()) {
-            throw new RuntimeException();
+            saleException("cart need to have a correct category enum");
         }
 
         return t.get().getValue();

@@ -4,13 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
-public class CustomerException extends RuntimeException {
+public class SaleException extends RuntimeException {
 
-    public CustomerException(String message) {
+    public SaleException(String message) {
         super(message);
     }
 
-    public static RuntimeException customerException(String message) {
+    public static RuntimeException saleException(String message) {
         throw new RuntimeException(message);
     }
 

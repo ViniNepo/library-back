@@ -9,12 +9,8 @@ import com.senac.library.api.repository.CustomerRepository;
 import com.senac.library.api.service.AuthorityService;
 import com.senac.library.api.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpClientErrorException.UnprocessableEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,14 +44,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Optional<Customer> getByEmail(LoginDto loginDto) {
-        return customerRepository.getCustomerByEmail(loginDto.getEmail());
+        return customerRepository.getCustomerByEmailAndActivateIsTrue(loginDto.getEmail());
     }
 
     @Override
     public Customer createUser(Customer customer) {
 
-        if(customerRepository.getCustomerByCpfAndEmail(customer.getCpf(), customer.getEmail()).isPresent()) {
-            throw new RuntimeException();
+        if(customerRepository.getCustomerByCpfAndEmailAndActivateIsTrue(customer.getCpf(), customer.getEmail()).isPresent()) {
+            customerException("customer already exist");
         }
 
         List<Address> address = addressRepository.saveAll(customer.getAddresses());
@@ -67,13 +63,27 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setAddresses(address);
         customer.setCreditCards(creditCards);
         customer.setContacts(contacts);
+        customer.setActivate(true);
 
         return customerRepository.save(customer);
     }
 
     @Override
     public Customer updateCustomer(Customer customer) {
-        return null;
+
+        if(customerRepository.findById(customer.getId()).isEmpty()) {
+            customerException("customer not found");
+        }
+
+        List<Address> address = addressRepository.saveAll(customer.getAddresses());
+        List<CreditCard> creditCards = creditCardRepository.saveAll(customer.getCreditCards());
+        List<Contact> contacts = contactRepository.saveAll(customer.getContacts());
+
+        customer.setAddresses(address);
+        customer.setCreditCards(creditCards);
+        customer.setContacts(contacts);
+
+        return customerRepository.save(customer);
     }
 
     @Override
@@ -81,8 +91,11 @@ public class CustomerServiceImpl implements CustomerService {
 
         Optional<Customer> customer = customerRepository.findById(id);
 
-        if(customer.isPresent()) {
-            customerRepository.deleteById(id);
+        if(customer.isEmpty()) {
+            customerException("customer not found");
         }
+
+        customer.get().setActivate(false);
+        customerRepository.save(customer.get());
     }
 }

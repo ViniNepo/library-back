@@ -3,12 +3,13 @@ package com.senac.library.api.model.dto;
 import com.senac.library.api.model.entities.Book;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-public class BookDto {
+public class BookDto implements Serializable {
 
     private Long id;
     private String title;
