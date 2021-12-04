@@ -1,12 +1,9 @@
 package com.senac.library.api.model.dto;
 
 import com.senac.library.api.model.entities.Book;
-import com.senac.library.api.model.entities.Store;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +24,7 @@ public class BookDto {
     private String isbn;
     private String imageUrl;
     private StoreDto store;
-    private List<TypeValueDto> typeValue;
+    private List<TypeValueDto> typeValues;
 
     public BookDto(){
 
@@ -48,6 +45,6 @@ public class BookDto {
         this.createDt = book.getCreateDt();
         this.updatedDt = book.getUpdatedDt();
         this.store = new StoreDto(book.getStore());
-        this.typeValue = book.getTypeValues().stream().map(TypeValueDto::new).collect(Collectors.toList());
+        this.typeValues = book.getTypeValues().stream().map(TypeValueDto::new).collect(Collectors.toList());
     }
 }

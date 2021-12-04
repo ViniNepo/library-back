@@ -1,14 +1,12 @@
 package com.senac.library.api.service.impl;
 
 import com.senac.library.api.model.dto.LoginDto;
-import com.senac.library.api.model.entities.Address;
-import com.senac.library.api.model.entities.Contact;
-import com.senac.library.api.model.entities.CreditCard;
-import com.senac.library.api.model.entities.Customer;
+import com.senac.library.api.model.entities.*;
 import com.senac.library.api.repository.AddressRepository;
 import com.senac.library.api.repository.ContactRepository;
 import com.senac.library.api.repository.CreditCardRepository;
 import com.senac.library.api.repository.CustomerRepository;
+import com.senac.library.api.service.AuthorityService;
 import com.senac.library.api.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,6 +35,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private ContactRepository contactRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthorityService authorityService;
+
     @Override
     public Optional<Customer> getById(Long id) {
         return customerRepository.findById(id);
@@ -58,6 +62,8 @@ public class CustomerServiceImpl implements CustomerService {
         List<CreditCard> creditCards = creditCardRepository.saveAll(customer.getCreditCards());
         List<Contact> contacts = contactRepository.saveAll(customer.getContacts());
 
+        customer.setAuthorities(List.of(authorityService.getRoleUser()));
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customer.setAddresses(address);
         customer.setCreditCards(creditCards);
         customer.setContacts(contacts);

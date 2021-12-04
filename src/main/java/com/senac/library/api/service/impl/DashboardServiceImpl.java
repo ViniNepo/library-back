@@ -81,7 +81,7 @@ public class DashboardServiceImpl implements DashboardService {
         int totalSalesToday = 0;
         for (SaleDto item : dtos) {
             for (CartItemDto cart : item.getCartItems()) {
-                item.setTotal(total += getValueDto(cart.getTypeValue(), cart.getBookDto().getTypeValue()) * cart.getQuantity());
+                item.setTotal(total += getValueDto(cart.getTypeValue(), cart.getBook().getTypeValues()) * cart.getQuantity());
 
                 if(item.getCreateDt().compareTo(LocalDate.now()) != -1) {
                     totalSalesToday++;
