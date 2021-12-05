@@ -84,8 +84,11 @@ public class Customer implements Serializable, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("USER"));
+        return authorities;
     }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Authority> authorities = new ArrayList<>();
 
     public Customer(Long id, String password, String cpf, String email) {
         this.id = id;

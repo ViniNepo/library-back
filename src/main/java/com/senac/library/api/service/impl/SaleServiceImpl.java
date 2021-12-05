@@ -62,7 +62,7 @@ public class SaleServiceImpl implements SaleService {
         for (SaleDto item : dtos) {
             double total = 0.0;
             for (CartItemDto cart : item.getCartItems()) {
-                item.setTotal(total += getValueDto(cart.getTypeValue(), cart.getBookDto().getTypeValue()) * cart.getQuantity());
+                item.setTotal(total += getValueDto(cart.getTypeValue(), cart.getBook().getTypeValues()) * cart.getQuantity());
             }
         }
 
@@ -81,7 +81,7 @@ public class SaleServiceImpl implements SaleService {
 
         double total = 0.0;
         for (CartItemDto cart : dto.getCartItems()) {
-            dto.setTotal(total += getValueDto(cart.getTypeValue(), cart.getBookDto().getTypeValue()) * cart.getQuantity());
+            dto.setTotal(total += getValueDto(cart.getTypeValue(), cart.getBook().getTypeValues()) * cart.getQuantity());
         }
 
         return dto;
@@ -100,7 +100,7 @@ public class SaleServiceImpl implements SaleService {
         for (SaleDto item : dtos) {
             double total = 0.0;
             for (CartItemDto cart : item.getCartItems()) {
-                item.setTotal(total += getValueDto(cart.getTypeValue(), cart.getBookDto().getTypeValue()) * cart.getQuantity());
+                item.setTotal(total += getValueDto(cart.getTypeValue(), cart.getBook().getTypeValues()) * cart.getQuantity());
             }
         }
 

@@ -25,7 +25,7 @@ public class BookDto implements Serializable {
     private String isbn;
     private String imageUrl;
     private StoreDto store;
-    private List<TypeValueDto> typeValue;
+    private List<TypeValueDto> typeValues;
 
     public BookDto(){
 
@@ -46,6 +46,6 @@ public class BookDto implements Serializable {
         this.createDt = book.getCreateDt();
         this.updatedDt = book.getUpdatedDt();
         this.store = new StoreDto(book.getStore());
-        this.typeValue = book.getTypeValues().stream().map(TypeValueDto::new).collect(Collectors.toList());
+        this.typeValues = book.getTypeValues().stream().map(TypeValueDto::new).collect(Collectors.toList());
     }
 }

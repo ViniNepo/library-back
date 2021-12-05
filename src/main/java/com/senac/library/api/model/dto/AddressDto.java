@@ -20,6 +20,7 @@ public class AddressDto {
     private String city;
     private String country;
     private String zip;
+    private Boolean principal;
 
     public AddressDto(Address address) {
         this.id = address.getId();
@@ -30,5 +31,6 @@ public class AddressDto {
         this.city = address.getCity();
         this.country = address.getCountry();
         this.zip = address.getZip();
+        this.principal = address.getPrincipal();
     }
 }
