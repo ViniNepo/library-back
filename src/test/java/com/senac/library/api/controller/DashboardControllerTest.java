@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static com.senac.library.api.mother.DashboardDtoMother.createdashboard;
+import static com.senac.library.api.mother.DashboardDtoMother.createdashboardController;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,7 +39,7 @@ class DashboardControllerTest {
     @Test
     public void findAllSalesTest() throws Exception {
 
-        given(service.getDashboard()).willReturn(createdashboard());
+        given(service.getDashboard()).willReturn(createdashboardController());
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .get(DASHBOARD_API)

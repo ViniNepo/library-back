@@ -65,10 +65,11 @@ class CustomerControllerTest {
         given(service.getByEmail(any(LoginDto.class))).willReturn(createOptionCustomer());
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .get(CUSTOMER_API.concat("/1"))
+                .get(CUSTOMER_API)
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .param(json);
+                .content(json);
+
         mvc.perform(request)
                 .andExpect(status().isOk());
     }
@@ -79,7 +80,6 @@ class CustomerControllerTest {
         Customer customer = createCustomer();
         given(service.createUser((any(Customer.class)))).willReturn(customer);
 
-        customer.setId(null);
         String json = new ObjectMapper().writeValueAsString(customer);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders

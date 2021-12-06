@@ -1,5 +1,6 @@
 package com.senac.library.api.service;
 
+import com.senac.library.api.model.entities.Authority;
 import com.senac.library.api.model.entities.Customer;
 import com.senac.library.api.repository.AddressRepository;
 import com.senac.library.api.repository.ContactRepository;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +42,12 @@ class CustomerServiceTest {
 
     @Mock
     private AddressRepository addressRepository;
+
+    @Mock
+    private AuthorityService authorityService;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @Mock
     private CreditCardRepository creditCardRepository;
@@ -76,12 +84,15 @@ class CustomerServiceTest {
 
     @Test
     void createUserTest() {
+        String roleCustomer = "ROLE_CUSTOMER";
 
         when(customerRepository.getCustomerByCpfAndEmailAndActivateIsTrue(anyString(), anyString())).thenReturn(Optional.empty());
         when(customerRepository.save(any(Customer.class))).thenReturn(createCustomer());
         when(addressRepository.saveAll(any(List.class))).thenReturn(createAddresses());
         when(creditCardRepository.saveAll(any(List.class))).thenReturn(createCreditCards());
         when(contactRepository.saveAll(any(List.class))).thenReturn(createContacts());
+        when(authorityService.getRoleUser()).thenReturn(new Authority(roleCustomer));
+        when(passwordEncoder.encode(anyString())).thenReturn("password");
 
         Customer customer = customerService.createUser(createCustomer());
 

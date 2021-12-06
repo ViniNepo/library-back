@@ -26,4 +26,22 @@ public class BookRequestMother {
 
         return book;
     }
+
+    public static BookRequest createBookRequestController() {
+        BookRequest book = new BookRequest();
+
+        book.setId(1L);
+        book.setTitle("title");
+        book.setAuthor("eu mesmo");
+        book.setEditor("eu mesmo");
+        book.setContent("bla bla bla");
+        book.setDescription("description");
+        book.setGender("gender");
+        book.setIsbn("123");
+        book.setNumberPages(10);
+        book.setTypeValues(createTypeValueList());
+        book.setQuantityBook(10);
+
+        return book;
+    }
 }

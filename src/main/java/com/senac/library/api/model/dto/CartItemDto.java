@@ -11,10 +11,6 @@ public class CartItemDto {
     private Integer quantity;
     private BookCategoryEnum typeValue;
 
-    public CartItemDto(){
-
-    }
-
     public CartItemDto(CartItem cartItem) {
         this.book = new BookDto(cartItem.getBook());
         this.quantity = cartItem.getQuantity();

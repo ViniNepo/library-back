@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import static com.senac.library.api.mother.AddressMother.createAddress;
 import static com.senac.library.api.mother.CartItensMother.createCartItemList;
+import static com.senac.library.api.mother.CartItensMother.createCartItemListController;
 import static com.senac.library.api.mother.CustomerMother.createCustomer;
 
 public class SaleMother {
@@ -45,5 +46,25 @@ public class SaleMother {
         sales.add(createSale());
 
         return sales;
+    }
+
+    public static List<Sale> createListSaleController() {
+        List<Sale> sales = new ArrayList<>();
+
+        sales.add(createSaleController());
+
+        return sales;
+    }
+
+    public static Sale createSaleController() {
+        Sale sale = new Sale();
+
+        sale.setId(1L);
+        sale.setActive(true);
+        sale.setCustomer(createCustomer());
+        sale.setAddress(createAddress());
+        sale.setCartItems(createCartItemListController());
+
+        return sale;
     }
 }

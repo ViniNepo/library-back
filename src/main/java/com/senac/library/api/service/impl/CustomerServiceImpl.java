@@ -1,7 +1,10 @@
 package com.senac.library.api.service.impl;
 
 import com.senac.library.api.model.dto.LoginDto;
-import com.senac.library.api.model.entities.*;
+import com.senac.library.api.model.entities.Address;
+import com.senac.library.api.model.entities.Contact;
+import com.senac.library.api.model.entities.CreditCard;
+import com.senac.library.api.model.entities.Customer;
 import com.senac.library.api.repository.AddressRepository;
 import com.senac.library.api.repository.ContactRepository;
 import com.senac.library.api.repository.CreditCardRepository;
@@ -9,6 +12,7 @@ import com.senac.library.api.repository.CustomerRepository;
 import com.senac.library.api.service.AuthorityService;
 import com.senac.library.api.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

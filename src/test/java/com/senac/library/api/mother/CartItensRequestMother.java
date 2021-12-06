@@ -7,6 +7,7 @@ import java.util.Set;
 
 import static com.senac.library.api.enuns.BookCategoryEnum.ONLINE_PRINTED;
 import static com.senac.library.api.mother.BookMother.createBook;
+import static com.senac.library.api.mother.BookMother.createBookController;
 import static com.senac.library.api.mother.BookMother.createBookOnlineType;
 
 public class CartItensRequestMother {
@@ -45,5 +46,23 @@ public class CartItensRequestMother {
         cartItemList.add(createCartItemRequestOnlineBook());
 
         return cartItemList;
+    }
+
+    public static Set<CartItemRequest> createCartItemRequestListController() {
+        Set<CartItemRequest> cartItemList = new HashSet<>();
+
+        cartItemList.add(createCartItemRequestController());
+
+        return cartItemList;
+    }
+
+    public static CartItemRequest createCartItemRequestController() {
+        CartItemRequest cartItem = new CartItemRequest();
+
+        cartItem.setBook(createBookController());
+        cartItem.setQuantity(2);
+        cartItem.setTypeValue(ONLINE_PRINTED);
+
+        return cartItem;
     }
 }

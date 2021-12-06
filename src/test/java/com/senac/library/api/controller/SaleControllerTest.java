@@ -20,9 +20,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.senac.library.api.mother.SaleMother.createListSale;
-import static com.senac.library.api.mother.SaleMother.createSale;
-import static com.senac.library.api.mother.SaleRequestMother.createSaleRequest;
+import static com.senac.library.api.mother.SaleMother.createListSaleController;
+import static com.senac.library.api.mother.SaleMother.createSaleController;
+import static com.senac.library.api.mother.SaleRequestMother.createSaleRequestController;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -50,7 +50,7 @@ class SaleControllerTest {
     @Test
     public void findAllSalesTest() throws Exception {
 
-        List<SaleDto> saleDtoList = createListSale().stream().map(SaleDto::new).collect(Collectors.toList());
+        List<SaleDto> saleDtoList = createListSaleController().stream().map(SaleDto::new).collect(Collectors.toList());
         given(service.getAllSales()).willReturn(saleDtoList);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -64,7 +64,7 @@ class SaleControllerTest {
     @Test
     public void findSaleByIdTest() throws Exception {
 
-        given(service.getSaleById(anyLong())).willReturn(new SaleDto(createSale()));
+        given(service.getSaleById(anyLong())).willReturn(new SaleDto(createSaleController()));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .get(SALE_API.concat("/1"))
@@ -77,7 +77,7 @@ class SaleControllerTest {
     @Test
     public void findSaleByCustomerIdTest() throws Exception {
 
-        List<SaleDto> saleDtoList = createListSale().stream().map(SaleDto::new).collect(Collectors.toList());
+        List<SaleDto> saleDtoList = createListSaleController().stream().map(SaleDto::new).collect(Collectors.toList());
         given(service.getSalesByCustomerId(anyLong())).willReturn(saleDtoList);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -91,8 +91,8 @@ class SaleControllerTest {
     @Test
     public void createSaleTest() throws Exception {
 
-        given(service.createSale(any(SaleRequest.class))).willReturn(new SaleDto(createSale()));
-        String json = new ObjectMapper().writeValueAsString(createSaleRequest());
+        given(service.createSale(any(SaleRequest.class))).willReturn(new SaleDto(createSaleController()));
+        String json = new ObjectMapper().writeValueAsString(createSaleRequestController());
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(SALE_API)

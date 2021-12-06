@@ -27,10 +27,6 @@ public class BookDto implements Serializable {
     private StoreDto store;
     private List<TypeValueDto> typeValues;
 
-    public BookDto(){
-
-    }
-
     public BookDto(Book book) {
         this.id = book.getId();
         this.title = book.getTitle();

@@ -108,8 +108,8 @@ class BookServiceTest {
 
         assertThat(book.getId()).isNotNull();
         assertThat(book.getStore().getId()).isNotNull();
-        assertThat(book.getTypeValue().get(0).getId()).isNotNull();
-        assertThat(book.getTypeValue().get(0).getBookCategoryEnum()).isEqualTo(request.getTypeValues().get(0).getBookCategoryEnum());
+        assertThat(book.getTypeValues().get(0).getId()).isNotNull();
+        assertThat(book.getTypeValues().get(0).getBookCategoryEnum()).isEqualTo(request.getTypeValues().get(0).getBookCategoryEnum());
     }
 
     @Test
@@ -148,7 +148,7 @@ class BookServiceTest {
         verify(typeValueRepository, times(3)).save(any(TypeValue.class));
         verify(storeRepository, times(1)).save(any(Store.class));
 
-        assertThat(book.getTypeValue().size()).isEqualTo(3);
+        assertThat(book.getTypeValues().size()).isEqualTo(3);
     }
 
     @Test

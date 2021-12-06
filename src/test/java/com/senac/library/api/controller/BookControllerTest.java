@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.senac.library.api.mother.BookMother.createBook;
-import static com.senac.library.api.mother.BookMother.createOptionalBook;
-import static com.senac.library.api.mother.BookRequestMother.createBookRequest;
+import static com.senac.library.api.mother.BookMother.createBookController;
+import static com.senac.library.api.mother.BookMother.createOptionalBookController;
+import static com.senac.library.api.mother.BookRequestMother.createBookRequestController;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -54,7 +54,7 @@ class BookControllerTest {
     public void listAllTest() throws Exception {
 
         List<Book> books = new ArrayList<>();
-        books.add(createBook());
+        books.add(createBookController());
         given(service.findAllBooks()).willReturn(books);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -69,7 +69,7 @@ class BookControllerTest {
     public void listAllUpdatedTest() throws Exception {
 
         List<Book> books = new ArrayList<>();
-        books.add(createBook());
+        books.add(createBookController());
         given(service.findBooksUpdated()).willReturn(books);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -84,7 +84,7 @@ class BookControllerTest {
     public void listAllNewTest() throws Exception {
 
         List<Book> books = new ArrayList<>();
-        books.add(createBook());
+        books.add(createBookController());
         given(service.findNewBooks()).willReturn(books);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -98,7 +98,7 @@ class BookControllerTest {
     @Test
     public void getByIdTest() throws Exception {
 
-        Optional<Book> book = createOptionalBook();
+        Optional<Book> book = createOptionalBookController();
         given(service.getBookById((anyLong()))).willReturn(book);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -112,8 +112,8 @@ class BookControllerTest {
     @Test
     public void createBookTest() throws Exception {
 
-        BookRequest bookRequest = createBookRequest();
-        BookDto book = new BookDto(createBook());
+        BookRequest bookRequest = createBookRequestController();
+        BookDto book = new BookDto(createBookController());
         given(service.createNewBook((any(BookRequest.class)))).willReturn(book);
         String json = new ObjectMapper().writeValueAsString(bookRequest);
 
@@ -134,7 +134,7 @@ class BookControllerTest {
     @Test
     public void updateBookTest() throws Exception {
 
-        BookDto book = new BookDto(createBook());
+        BookDto book = new BookDto(createBookController());
         given(service.updateByBook((any(Book.class)))).willReturn(book);
         String json = new ObjectMapper().writeValueAsString(book);
 

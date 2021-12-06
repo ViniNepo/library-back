@@ -130,6 +130,26 @@ public class BookMother {
         return book;
     }
 
+    public static Optional<Book> createOptionalBookController() {
+        Optional<Book> book = Optional.of(new Book());
+
+        book.get().setId(1L);
+        book.get().setTitle("title");
+        book.get().setAuthor("eu mesmo");
+        book.get().setEditor("eu mesmo");
+        book.get().setContent("bla bla bla");
+        book.get().setDescription("description");
+        book.get().setGender("gender");
+        book.get().setIsbn("123");
+        book.get().setNumberPages(10);
+        book.get().setStore(createStore());
+        book.get().setTypeValues(createTypeValueList());
+        book.get().getStore().setBook(book.get());
+        book.get()  .setActivate(true);
+
+        return book;
+    }
+
     public static Book createUpdateBook() {
         Book book = new Book();
 
@@ -169,5 +189,24 @@ public class BookMother {
         bookList.add(createBookUpdated());
 
         return bookList;
+    }
+
+    public static Book createBookController() {
+        Book book = new Book();
+
+        book.setId(1L);
+        book.setTitle("title");
+        book.setAuthor("eu mesmo");
+        book.setEditor("eu mesmo");
+        book.setContent("bla bla bla");
+        book.setDescription("description");
+        book.setGender("gender");
+        book.setIsbn("123");
+        book.setNumberPages(10);
+        book.setStore(createStore());
+        book.setTypeValues(createTypeValueList());
+        book.setActivate(true);
+
+        return book;
     }
 }

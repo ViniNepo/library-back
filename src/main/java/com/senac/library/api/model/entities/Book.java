@@ -1,5 +1,6 @@
 package com.senac.library.api.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.senac.library.api.model.request.BookRequest;
 import lombok.Data;
@@ -49,6 +50,7 @@ public class Book implements Serializable {
     private String editor;
 
     @Column
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate publishDate;
 
     @Column
@@ -68,10 +70,12 @@ public class Book implements Serializable {
 
     @CreatedDate
     @Column(columnDefinition = "DATE")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate createDt;
 
     @LastModifiedDate
     @Column(columnDefinition = "DATE")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate updatedDt;
 
     @OneToOne
