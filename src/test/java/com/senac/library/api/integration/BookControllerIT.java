@@ -19,8 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.senac.library.api.enuns.BookCategoryEnum.ONLINE;
-import static com.senac.library.api.mother.BookMother.createUpdateBook;
-import static com.senac.library.api.mother.BookRequestMother.createBookRequest;
+import static com.senac.library.api.mother.BookMother.createBookController;
+import static com.senac.library.api.mother.BookRequestMother.createBookRequestController;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -42,13 +42,23 @@ class BookControllerIT {
     static String BOOK_API = "/book";
 
     @Test
+    public void createBookTest() {
+
+        testRestTemplate.postForEntity(BOOK_API, createBookRequestController(), Book.class).getBody();
+
+        Book book = testRestTemplate.exchange(BOOK_API.concat("/1"), HttpMethod.GET, null, new ParameterizedTypeReference<Book>() {}).getBody();
+
+        assertThat(book.getId()).isNotNull();
+    }
+
+    @Test
     public void listAllTest() {
 
         createBookList();
 
         List<Book> bookDtoList = testRestTemplate.exchange(BOOK_API, HttpMethod.GET, null, new ParameterizedTypeReference<List<Book>>() {}).getBody();
 
-        assertThat(bookDtoList).hasSize(1);
+        assertThat(bookDtoList).hasSize(3);
         assertThat(bookDtoList.get(0).getId()).isNotNull();
     }
 
@@ -70,21 +80,13 @@ class BookControllerIT {
 
         List<Book> bookDtoList = testRestTemplate.exchange(BOOK_API.concat("/new"), HttpMethod.GET, null, new ParameterizedTypeReference<List<Book>>() {}).getBody();
 
-        assertThat(bookDtoList).hasSize(1);
+        assertThat(bookDtoList).hasSize(4);
         assertThat(bookDtoList.get(0).getId()).isNotNull();
     }
 
     @Test
-    public void createBookTest() {
-
-        Book book = testRestTemplate.postForEntity(BOOK_API, createBookRequest(), Book.class).getBody();
-
-        assertThat(book.getId()).isNotNull();
-    }
-
-    @Test
     public void updateBookTest() {
-        Book updatedBook = createUpdateBook();
+        Book updatedBook = createBookController();
 
         Book book = testRestTemplate.postForEntity(BOOK_API, updatedBook, Book.class).getBody();
 
